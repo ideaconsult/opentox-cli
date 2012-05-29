@@ -13,6 +13,23 @@
       <comments />
     </license>
   </licenses>    
+   <distributionManagement>
+    <snapshotRepository>
+      <id>ambit-plovdiv-snapshots</id>
+      <url>http://ambit.uni-plovdiv.bg:8083/nexus/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+    <repository>
+      <id>ambit-plovdiv-releases</id>
+      <url>http://ambit.uni-plovdiv.bg:8083/nexus/content/repositories/releases</url>
+    </repository>
+    <!-- 
+    <site>
+      <id>website_ambit</id>
+      <url>scp://shell.sourceforge.net/home/groups/a/am/ambit/htdocs/AMBIT2-LIBS</url>
+    </site>
+ 	 -->
+  </distributionManagement>
     <repositories>
     <repository>
       <snapshots>
