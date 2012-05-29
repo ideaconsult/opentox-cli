@@ -38,6 +38,7 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	protected static final String mime_rdfxml = "application/rdf+xml";
 	protected static final String mime_n3 = "text/n3";
 	protected static final String mime_uri = "text/uri-list";
+	protected static final String mime_csv = "text/csv";
 	
 	protected static final String search_param = "search";
 	protected static final String modified_param = "modifiedSince";
@@ -149,7 +150,8 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 				model.read(new InputStreamReader(in,"UTF-8"),OpenTox.URI);
 				return getIOClass().fromJena(model);
 				*/
-				throw new RestException(response.getStatusLine().getStatusCode(),"Everything's fine, but parsing content is not implemented yet");
+				return processPayload(in,mediaType);
+
 			} else if (response.getStatusLine().getStatusCode()== HttpStatus.SC_NOT_FOUND) {	
 				return Collections.emptyList();
 			} else throw new RestException(response.getStatusLine().getStatusCode(),response.getStatusLine().getReasonPhrase());
@@ -159,6 +161,11 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 		}
 	
 	}
+	
+	protected List<T>  processPayload(InputStream in, String mediaType) throws RestException, IOException {
+		throw new RestException(HttpStatus.SC_OK,"Everything's fine, but parsing content is not implemented yet "+mediaType);
+	}
+	
 	private String prepareParams(URL url,String... params) {
 		String address = url.toString();
 		if (params != null) {
