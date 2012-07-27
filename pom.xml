@@ -76,8 +76,8 @@ http://opentox.org/dev/apis/api-1.2</description>
     </dependency>
   </dependencies>
   <scm>
-  	<connection>scm:git://github.com/ideaconsult/opentox-cli.git</connection>
-  	<developerConnection>scm:git@github.com:ideaconsult/opentox-cli.git</developerConnection>
+  	<connection>scm:git:git://github.com/ideaconsult/opentox-cli.git</connection>
+  	<developerConnection>scm:git:git@github.com:ideaconsult/opentox-cli.git</developerConnection>
   	<url>https://github.com/ideaconsult/opentox-cli.git</url>
   </scm>
   <organization>
