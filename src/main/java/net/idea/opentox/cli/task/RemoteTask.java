@@ -105,11 +105,13 @@ public class RemoteTask implements Serializable {
 			in = entity.getContent();
 			result = handleOutput(in,status,null);
 		} catch (RestException x) {
+			x.printStackTrace();
 			status = x.getStatus();
 			try { 
 				error = new RestException(HttpStatus.SC_BAD_GATEWAY,String.format("URL=%s [%s] ",url,x.getStatus()),x); 
 			}	catch (Exception xx) { error = x; }
 		} catch (Exception x) {
+			x.printStackTrace();
 			setError(x);
 			status = -1;
 		} finally {
@@ -173,13 +175,16 @@ public class RemoteTask implements Serializable {
 			}
 			result = handleOutput(in,status,result);
 		} catch (IOException x) {
+			x.printStackTrace();
 			setError(x);
 
 		} catch (RestException x) {
+			x.printStackTrace();
 			setError(x);
 			status = x.getStatus();
 			statusLine = x.getMessage();
 		} catch (Exception x) {
+			x.printStackTrace();
 			setError(x);
 			status = -1;
 			statusLine = x.getMessage();
