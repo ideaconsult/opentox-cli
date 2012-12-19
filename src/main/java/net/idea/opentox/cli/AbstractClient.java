@@ -15,6 +15,7 @@ import java.util.List;
 
 import net.idea.opentox.cli.task.RemoteTask;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -44,8 +45,14 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	protected static final String modified_param = "modifiedSince";
 	protected String defaultMimeType = mime_uri;
 	protected HttpClient httpClient;
-
+	protected Header[] headers = null;
 	
+	public Header[] getHeaders() {
+		return headers;
+	}
+	public void setHeaders(Header[] headers) {
+		this.headers = headers;
+	}
 	public HttpClient getHttpClient() throws IOException {
 		if (httpClient==null) throw new IOException("No HttpClient!"); 
 			//setHttpClient(new DefaultHttpClient());
@@ -136,6 +143,7 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	protected List<T> get(URL url,String mediaType,String... params) throws RestException, IOException {
 		String address = prepareParams(url, params);
 		HttpGet httpGet = new HttpGet(address);
+		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
 		httpGet.addHeader("Accept",mediaType);
 		httpGet.addHeader("Accept-Charset", "utf-8");
 
@@ -213,6 +221,7 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	 */
 	public List<URL> listURI(URL url,String... params) throws  RestException, IOException {
 		HttpGet httpGet = new HttpGet(prepareParams(url, params));
+		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
 		httpGet.addHeader("Accept","text/uri-list");
 
 		InputStream in = null;
