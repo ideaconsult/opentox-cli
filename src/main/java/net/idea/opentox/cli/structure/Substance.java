@@ -52,6 +52,12 @@ public class Substance extends AbstractURLResource {
 			public String getTitle() {
 				return "REACH registration date";
 			}
+		},
+		IUCLID5_UUID {
+			@Override
+			public String getTitle() {
+				return "IUCLID UUID";
+			}
 		};
 		public String getTitle() {
 			return name();
@@ -97,7 +103,15 @@ public class Substance extends AbstractURLResource {
 	String SMILES;
 	String InChI;
 	String InChIKey;
+	String IUCLID_UUID;
 	
+	public String getIUCLID_UUID() {
+		return IUCLID_UUID;
+	}
+
+	public void setIUCLID_UUID(String iUCLID_UUID) {
+		IUCLID_UUID = iUCLID_UUID;
+	}
 	protected String similarity = null;
 	public String getSimilarity() {
 		return similarity;

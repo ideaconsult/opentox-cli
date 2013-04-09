@@ -74,6 +74,12 @@ http://opentox.org/dev/apis/api-1.2</description>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+    	<groupId>junit</groupId>
+    	<artifactId>junit</artifactId>
+    	<version>${junit.version}</version>
+    	<scope>test</scope>
+    </dependency>
   </dependencies>
   <scm>
   	<connection>scm:git:git://github.com/ideaconsult/opentox-cli.git</connection>
