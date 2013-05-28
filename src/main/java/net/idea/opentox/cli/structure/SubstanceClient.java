@@ -64,6 +64,7 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
 		if (substance.getResourceIdentifier()!=null)
 			formparams.add(new BasicNameValuePair("compound_uri", substance.getResourceIdentifier().toExternalForm()));
+		//formparams.add(new BasicNameValuePair("molfile", ??));
 		if (substance.getCas()!=null)
 			formparams.add(new BasicNameValuePair(Substance._titles.CASRN.name(), substance.getCas()));
 		if (substance.getEinecs()!=null)

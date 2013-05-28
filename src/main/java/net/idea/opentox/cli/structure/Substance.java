@@ -12,6 +12,9 @@ public class Substance extends AbstractURLResource {
 	private static final long serialVersionUID = 6291149605331598909L;
 	protected int idchemical;
 	protected int idstructure;
+	protected String content;
+	protected String format;
+	public enum MOL_TYPE {SDF,CML,CSV,URI,INC,NANO};	
 	protected Hashtable<String, String> properties; 
 	public enum _titles { //from OpenTox.owl
 		Compound,
@@ -184,5 +187,25 @@ public class Substance extends AbstractURLResource {
 	public URL getResourceIdentifier() {
 		return resourceURL;
 	}
-	
+
+    public String getFormat() {
+    	return format;
+    }
+    
+    void setFormat(String format) {
+    	this.format = format;
+    }
+
+    public String getContent() {
+    	return content;
+    }
+    
+	public void setContent(String content) {
+		this.content = content;
+		setSMILES(null);
+		setInChI(null);
+		setInChIKey(null);
+	}
+
+
 }
