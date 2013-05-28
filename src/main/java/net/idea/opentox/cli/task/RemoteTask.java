@@ -256,8 +256,8 @@ public class RemoteTask implements Serializable {
 			Thread.yield();
 			Thread.sleep(seq.sleepInterval(sleepInterval,true,1000 * 60 * 5)); //
 			//TODO timeout
-			System.out.print("poll ");
-			System.out.println(this);
+			//System.out.print("poll ");
+			//System.out.println(this);
 		}
 		if (isERROR()) throw getError();
 	}
