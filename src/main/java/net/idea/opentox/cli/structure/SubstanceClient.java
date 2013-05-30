@@ -10,6 +10,7 @@ import net.idea.opentox.cli.AbstractClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.task.RemoteTask;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -20,7 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.opentox.rest.RestException;
 
 public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLICY_RULE> {
-
+	public enum QueryType  {smiles,url,mol};
 	public SubstanceClient() {
 		this(null);
 	}
@@ -29,24 +30,61 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 		super(httpclient);
 	}
 	
-	public List<URL> searchExactStructuresURI(URL queryService, String term) throws RestException,
-			IOException {
-		URL ref = new URL(String.format("%s/query/compound/search/all?page=0&pagesize=10",queryService));
-		return super.searchURI(ref, term);
+	public List<URL> searchExactStructuresURI(URL queryService, String term) throws RestException,IOException {
+		return searchExactStructuresURI(queryService, term,QueryType.smiles,false);
+	}	
+	/**
+	 * 
+	 * @param queryService
+	 * @param term SMILES, SMARTS, name, any other identifier. If b64 is true, expects MOL, which will be Base64 encoded
+	 * @param b64 
+	 * @return
+	 * @throws RestException
+	 * @throws IOException
+	 */
+	public List<URL> searchExactStructuresURI(URL queryService, String term, QueryType qtype, boolean b64) throws RestException,IOException {
+		URL ref = new URL(String.format("%s/query/compound/search/all?type=%s&page=0&pagesize=10",queryService,qtype.name()));
+		return searchURI(ref, term,b64);
 	}
 	
-	public List<URL> searchSimilarStructuresURI(URL queryService, String term, double threshold) throws RestException,
-																						IOException {
-		URL ref = new URL(String.format("%s/query/similarity?page=0&pagesize=10&threshold=%3.2f",queryService,threshold));
-		return super.searchURI(ref, term);
+	public List<URL> searchSimilarStructuresURI(URL queryService, String term, double threshold) throws RestException,IOException {
+		return searchSimilarStructuresURI(queryService, term, QueryType.smiles, false, threshold);
+	}
+	/**
+	 * 
+	 * @param queryService
+	 * @param term SMILES, SMARTS, name, any other identifier. If b64 is true, expects MOL, which will be Base64 encoded
+	 * @param b64 
+	 * @return
+	 * @throws RestException
+	 * @throws IOException
+	 */
+	public List<URL> searchSimilarStructuresURI(URL queryService, String term, QueryType qtype, boolean b64, double threshold) throws RestException,IOException {
+		URL url = new URL(String.format("%s/query/similarity?type=%s&page=0&pagesize=10&threshold=%3.2f",queryService,qtype.name(),threshold));
+		return searchURI(url, term,b64);
 	}
 	
-	public List<URL> searchSubstructuresURI(URL queryService, String term) throws RestException,
-	IOException {
-		URL ref = new URL(String.format("%s/query/smarts?page=0&pagesize=10",queryService));
-		return super.searchURI(ref, term);
+	/**
+	 * 
+	 * @param queryService
+	 * @param term SMILES, SMARTS, name, any other identifier. If b64 is true, expects MOL, which will be Base64 encoded
+	 * @param b64 
+	 * @return
+	 * @throws RestException
+	 * @throws IOException
+	 */
+	public List<URL> searchSubstructuresURI(URL queryService, String term, QueryType qtype, boolean b64) throws RestException,IOException {
+		URL ref = new URL(String.format("%s/query/smarts?type=%s&page=0&pagesize=10",queryService,qtype.name()));
+		return searchURI(ref, term,b64);
+	}
+	public List<URL> searchSubstructuresURI(URL queryService, String term) throws RestException, IOException {
+		return searchSubstructuresURI(queryService, term,QueryType.smiles,false);
 	}
 	
+	public List<URL> searchURI(URL url,String term, boolean b64) throws  RestException, IOException {
+		if (b64) return listURI(url, new String[] {b64search_param,Base64.encodeBase64String(term.getBytes())});
+		else return listURI(url, new String[] {search_param,term});
+	}
 
 	
 	public RemoteTask registerSubstanceAsync(URL serviceRoot,Substance substance, String customidName,String customidValue) throws InvalidInputException ,Exception {

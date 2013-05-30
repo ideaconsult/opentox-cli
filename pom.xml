@@ -80,6 +80,12 @@ http://opentox.org/dev/apis/api-1.2</description>
     	<version>${junit.version}</version>
     	<scope>test</scope>
     </dependency>
+    <dependency>
+	<groupId>commons-codec</groupId>
+	<artifactId>commons-codec</artifactId>
+	<version>1.8</version>
+	</dependency>
+            
   </dependencies>
   <scm>
   	<connection>scm:git:git://github.com/ideaconsult/opentox-cli.git</connection>

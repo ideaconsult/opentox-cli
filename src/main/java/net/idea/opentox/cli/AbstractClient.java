@@ -42,6 +42,7 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	protected static final String mime_csv = "text/csv";
 	
 	protected static final String search_param = "search";
+	protected static final String b64search_param = "b64search";
 	protected static final String modified_param = "modifiedSince";
 	protected String defaultMimeType = mime_uri;
 	protected HttpClient httpClient;
