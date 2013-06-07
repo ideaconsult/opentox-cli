@@ -143,4 +143,18 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 		Assert.assertEquals(1,hits);
 		*/
 	}
+	@Test
+	public void testReadIdentifiers() throws Exception {
+		SubstanceClient<POLICY_RULE> otClient = getOTClient();
+		//get the first record
+		List<Substance> substances = otClient.getIdentifiers(
+				new URL(String.format("%s", TEST_SERVER)),
+				new URL(String.format("%s%s/1", TEST_SERVER,Resources.compound))
+				);		
+		for (Substance s : substances) {
+			Assert.assertNotNull(s.getResourceIdentifier());
+			System.out.println(s.getName());
+			System.out.println(s.getResourceIdentifier());
+		}
+	}
 }

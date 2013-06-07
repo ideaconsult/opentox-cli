@@ -4,7 +4,7 @@
   <groupId>ambit</groupId>
   <artifactId>opentox-client</artifactId>
   <name>OpenTox client</name>
-  <version>1.0.2</version>
+  <version>1.0.3-SNAPSHOT</version>
   <description>OpenTox API client 
 http://opentox.org/dev/apis/api-1.2</description>
   <url>https://github.com/ideaconsult/opentox-cli</url>
@@ -85,7 +85,16 @@ http://opentox.org/dev/apis/api-1.2</description>
 	<artifactId>commons-codec</artifactId>
 	<version>1.8</version>
 	</dependency>
-            
+    <dependency>
+	<groupId>org.codehaus.jackson</groupId>
+	<artifactId>jackson-core-lgpl</artifactId>
+	<version>1.9.12</version>
+</dependency>
+<dependency>
+	<groupId>org.codehaus.jackson</groupId>
+	<artifactId>jackson-mapper-asl</artifactId>
+	<version>1.9.12</version>
+</dependency>            
   </dependencies>
   <scm>
   	<connection>scm:git:git://github.com/ideaconsult/opentox-cli.git</connection>

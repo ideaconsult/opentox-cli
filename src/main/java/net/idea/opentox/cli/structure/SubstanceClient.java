@@ -1,10 +1,14 @@
 package net.idea.opentox.cli.structure;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.idea.opentox.cli.AbstractClient;
 import net.idea.opentox.cli.InvalidInputException;
@@ -18,6 +22,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.message.BasicNameValuePair;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
 import org.opentox.rest.RestException;
 
 public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLICY_RULE> {
@@ -86,7 +93,77 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 		else return listURI(url, new String[] {search_param,term});
 	}
 
+	/**
+	 * /ambit2/query/compound/url/all?search=http%3A%2F%2Ftoxbanktest2.toxbank.net%3A8080%2Fambit2%2Fcompound%2F1%2Fconformer%2F1
+	 * @param queryService
+	 * @param term
+	 * @return
+	 * @throws RestException
+	 * @throws IOException
+	 */
+	public List<Substance> getIdentifiers(URL queryService, URL compound) throws Exception {
+		URL ref = new URL(String.format("%s/query/compound/url/all?search=%s",queryService,URLEncoder.encode(compound.toExternalForm())));
+		return get(ref,mime_json);
+	}
 	
+	@Override
+	protected List<Substance> processPayload(InputStream in, String mediaType)
+			throws RestException, IOException {
+		List<Substance> list = null;
+		if (mime_json.equals(mediaType)) {
+			 ObjectMapper m = new ObjectMapper();
+			 JsonNode node = m.readTree(in);
+			 ArrayNode data = (ArrayNode)node.get("dataEntry");
+			 JsonNode features = node.get("feature");
+			 for (int i=0; i < data.size();i++) {
+				 Substance substance = new Substance(new URL(data.get(i).get("compound").get("URI").getTextValue()));
+				 if (list==null) list = new ArrayList<Substance>();
+				 list.add(substance);
+				 JsonNode vals = data.get(i).get("values");
+				 Iterator<Entry<String,JsonNode>> fields = vals.getFields();
+				 while (fields.hasNext()) {
+					 Entry<String,JsonNode> field = fields.next();
+					 String type = features.get(field.getKey()).get("sameAs").getTextValue();
+					 if ("http://www.opentox.org/api/1.1#ChemicalName".equals(type)) {
+						 substance.setName(field.getValue().getTextValue());
+					 } else if ("http://www.opentox.org/api/1.1#IUPACName".equals(type)) {
+						 substance.setName(field.getValue().getTextValue());
+					 } else if ("http://www.opentox.org/api/1.1#SMILES".equals(type)) {
+						 substance.setSMILES(field.getValue().getTextValue());
+					 } else if ("http://www.opentox.org/api/1.1#CASRN".equals(type)) {
+						 substance.setCas(field.getValue().getTextValue());
+					 } else if ("http://www.opentox.org/api/1.1#InChI_std".equals(type)) {
+						 substance.setInChI(field.getValue().getTextValue());
+					 } else if ("http://www.opentox.org/api/1.1#InChIKey_std".equals(type)) {
+						 substance.setInChIKey(field.getValue().getTextValue());
+					 } else if ("http://www.opentox.org/api/1.1#REACHRegistrationDate".equals(type)) {
+						 //
+					 } else if ("http://www.opentox.org/api/1.1#IUCLID5_UUID".equals(type)) {
+						 substance.setIUCLID_UUID(field.getValue().getTextValue());
+					 }
+				 }
+			 }
+			 return list;
+		} else if (mime_rdfxml.equals(mediaType)) {
+			return super.processPayload(in, mediaType);
+		} else if (mime_n3.equals(mediaType)) {
+			return super.processPayload(in, mediaType);
+		} else if (mime_csv.equals(mediaType)) {
+			/*
+			Substance substance = new Substance();
+			String line = null;
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			while ((line = reader.readLine())!=null) {
+				QuotedTokenizer st = new QuotedTokenizer(line,',');
+				while (st.hasMoreTokens()) header.add(st.nextToken().trim());
+				break;
+			}
+			//QuotedTokenizer tokenizer = new QuotedTokenizer(text, delimiter);
+			 */
+			return super.processPayload(in, mediaType);
+		} else return super.processPayload(in, mediaType);
+	}
+		
 	public RemoteTask registerSubstanceAsync(URL serviceRoot,Substance substance, String customidName,String customidValue) throws InvalidInputException ,Exception {
 		URL ref = new URL(String.format("%s/compound",serviceRoot));
 		return sendAsync(ref, createFormEntity(substance,customidName,customidValue), HttpPost.METHOD_NAME);

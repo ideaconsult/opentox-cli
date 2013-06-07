@@ -40,6 +40,7 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	protected static final String mime_n3 = "text/n3";
 	protected static final String mime_uri = "text/uri-list";
 	protected static final String mime_csv = "text/csv";
+	protected static final String mime_json = "application/json";
 	
 	protected static final String search_param = "search";
 	protected static final String b64search_param = "b64search";
