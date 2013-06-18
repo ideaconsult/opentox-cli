@@ -28,7 +28,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.opentox.rest.RestException;
 
 public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLICY_RULE> {
-	public enum QueryType  {smiles,url,mol};
+	public enum QueryType  {smiles,url,mol,inchikey};
 	public SubstanceClient() {
 		this(null);
 	}
@@ -52,6 +52,11 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 	public List<URL> searchExactStructuresURI(URL queryService, String term, QueryType qtype, boolean b64) throws RestException,IOException {
 		URL ref = new URL(String.format("%s/query/compound/search/all?type=%s&page=0&pagesize=10",queryService,qtype.name()));
 		return searchURI(ref, term,b64);
+	}
+	
+	public List<URL> searchSucturesByInchikeyURI(URL queryService, String term, QueryType qtype) throws RestException,IOException {
+		URL ref = new URL(String.format("%s/query/compound/inchikey/all?type=%s&page=0&pagesize=10",queryService,qtype.name()));
+		return searchURI(ref, term,false);
 	}
 	
 	public List<URL> searchSimilarStructuresURI(URL queryService, String term, double threshold) throws RestException,IOException {
