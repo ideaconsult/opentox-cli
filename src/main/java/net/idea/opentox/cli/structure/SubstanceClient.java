@@ -54,8 +54,8 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 		return searchURI(ref, term,b64);
 	}
 	
-	public List<URL> searchSucturesByInchikeyURI(URL queryService, String term, QueryType qtype) throws RestException,IOException {
-		URL ref = new URL(String.format("%s/query/compound/inchikey/all?type=%s&page=0&pagesize=10",queryService,qtype.name()));
+	public List<URL> searchSucturesByInchikeyURI(URL queryService, String term) throws RestException,IOException {
+		URL ref = new URL(String.format("%s/query/compound/inchikey/all?page=0&pagesize=10",queryService));
 		return searchURI(ref, term,false);
 	}
 	
@@ -130,13 +130,17 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 					 Entry<String,JsonNode> field = fields.next();
 					 String type = features.get(field.getKey()).get("sameAs").getTextValue();
 					 if ("http://www.opentox.org/api/1.1#ChemicalName".equals(type)) {
-						 substance.setName(field.getValue().getTextValue());
+						 if (!"".equals(field.getValue().getTextValue()))
+							 substance.setName(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#IUPACName".equals(type)) {
-						 substance.setName(field.getValue().getTextValue());
+						 if (!"".equals(field.getValue().getTextValue()))
+							 substance.setName(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#SMILES".equals(type)) {
 						 substance.setSMILES(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#CASRN".equals(type)) {
 						 substance.setCas(field.getValue().getTextValue());
+					 } else if ("http://www.opentox.org/api/1.1#EINECS".equals(type)) {
+						 substance.setCas(field.getValue().getTextValue());						 
 					 } else if ("http://www.opentox.org/api/1.1#InChI_std".equals(type)) {
 						 substance.setInChI(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#InChIKey_std".equals(type)) {
