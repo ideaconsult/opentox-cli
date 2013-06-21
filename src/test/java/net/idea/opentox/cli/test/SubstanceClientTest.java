@@ -147,14 +147,15 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	public void testReadIdentifiers() throws Exception {
 		SubstanceClient<POLICY_RULE> otClient = getOTClient();
 		//get the first record
-		List<Substance> substances = otClient.getIdentifiers(
-				new URL(String.format("%s", TEST_SERVER)),
-				new URL(String.format("%s%s/1", TEST_SERVER,Resources.compound))
+		List<Substance> substances = otClient.getIdentifiersAndLinks(
+				new URL(String.format("%s", TEST_SERVER)),//bosentan
+				new URL(String.format("%s%s/147621", TEST_SERVER,Resources.compound))
 				);		
 		for (Substance s : substances) {
 			Assert.assertNotNull(s.getResourceIdentifier());
 			System.out.println(s.getName());
 			System.out.println(s.getResourceIdentifier());
+			System.out.println(s.getProperties().get(Substance.opentox_ChEBI));
 		}
 	}
 }

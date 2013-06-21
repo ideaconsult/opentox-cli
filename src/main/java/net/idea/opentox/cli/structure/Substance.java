@@ -16,6 +16,12 @@ public class Substance extends AbstractURLResource {
 	protected String format;
 	public enum MOL_TYPE {SDF,CML,CSV,URI,INC,NANO};	
 	protected Hashtable<String, String> properties; 
+	public static final String opentox_ChEBI = "http://www.opentox.org/api/dblinks#ChEBI";
+	public static final String opentox_Pubchem = "http://www.opentox.org/api/dblinks#Pubchem";
+	public static final String opentox_ChemSpider = "http://www.opentox.org/api/dblinks#ChemSpider";
+	public static final String opentox_ChEMBL = "http://www.opentox.org/api/dblinks#ChEMBL";
+	public static final String opentox_ToxbankWiki = "http://www.opentox.org/api/dblinks#ToxbankWiki";
+	public static final String opentox_CMS = "http://www.opentox.org/api/dblinks#CMS";
 	public enum _titles { //from OpenTox.owl
 		Compound,
 		CASRN {

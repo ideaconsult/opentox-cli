@@ -116,6 +116,8 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 		return get(ref,mime_json);
 	}
 
+
+	
 	@Override
 	protected List<Substance> processPayload(InputStream in, String mediaType)
 			throws RestException, IOException {
@@ -152,8 +154,18 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 						 substance.setInChIKey(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#REACHRegistrationDate".equals(type)) {
 						 //
-					 } else if ("http://www.opentox.org/api/1.1#IUCLID5_UUID".equals(type)) {
-						 substance.setIUCLID_UUID(field.getValue().getTextValue());
+					 } else if (Substance.opentox_ChEBI.equals(type)) {
+						 substance.getProperties().put(type,field.getValue().getTextValue());
+					 } else if (Substance.opentox_ChEMBL.equals(type)) {
+						 substance.getProperties().put(type,field.getValue().getTextValue());
+					 } else if (Substance.opentox_ChemSpider.equals(type)) {
+						 substance.getProperties().put(type,field.getValue().getTextValue());						 
+					 } else if (Substance.opentox_ToxbankWiki.equals(type)) {
+						 substance.getProperties().put(type,field.getValue().getTextValue());
+					 } else if (Substance.opentox_CMS.equals(type)) {
+						 substance.getProperties().put(type,field.getValue().getTextValue());			 
+					 } else if (Substance.opentox_Pubchem.equals(type)) {
+						 substance.getProperties().put(type,field.getValue().getTextValue());
 					 }
 				 }
 			 }
