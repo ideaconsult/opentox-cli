@@ -111,6 +111,11 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 		return get(ref,mime_json);
 	}
 	
+	public List<Substance> getIdentifiersAndLinks(URL queryService, URL compound) throws Exception {
+		URL ref = new URL(String.format("%s/query/compound/url/allnlinks?search=%s",queryService,URLEncoder.encode(compound.toExternalForm())));
+		return get(ref,mime_json);
+	}
+
 	@Override
 	protected List<Substance> processPayload(InputStream in, String mediaType)
 			throws RestException, IOException {
