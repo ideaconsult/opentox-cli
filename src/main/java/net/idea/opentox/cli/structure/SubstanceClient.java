@@ -128,7 +128,12 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 			 ArrayNode data = (ArrayNode)node.get("dataEntry");
 			 JsonNode features = node.get("feature");
 			 for (int i=0; i < data.size();i++) {
-				 Substance substance = new Substance(new URL(data.get(i).get("compound").get("URI").getTextValue()));
+				 JsonNode compound = data.get(i).get("compound");
+				 Substance substance = new Substance(new URL(compound.get("URI").getTextValue()));
+				 try {substance.setInChI(compound.get("inchi").getTextValue());} catch (Exception x) {}
+				 try {substance.setInChIKey(compound.get("inchikey").getTextValue());} catch (Exception x) {}
+				 try {substance.setSMILES(compound.get("smiles").getTextValue());} catch (Exception x) {}
+				 try {substance.setFormula(compound.get("formula").getTextValue());} catch (Exception x) {}
 				 if (list==null) list = new ArrayList<Substance>();
 				 list.add(substance);
 				 JsonNode vals = data.get(i).get("values");

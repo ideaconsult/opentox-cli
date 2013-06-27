@@ -113,6 +113,7 @@ public class Substance extends AbstractURLResource {
 	String InChI;
 	String InChIKey;
 	String IUCLID_UUID;
+	String formula;
 	
 	public String getIUCLID_UUID() {
 		return IUCLID_UUID;
@@ -134,6 +135,12 @@ public class Substance extends AbstractURLResource {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getFormula() {
+		return formula;
+	}
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 	public String getCas() {
 		return cas;
