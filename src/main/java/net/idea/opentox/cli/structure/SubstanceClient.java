@@ -146,7 +146,7 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 							 substance.setName(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#IUPACName".equals(type)) {
 						 if (!"".equals(field.getValue().getTextValue()))
-							 substance.setName(field.getValue().getTextValue());
+							 substance.setIupacName(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#SMILES".equals(type)) {
 						 substance.setSMILES(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#CASRN".equals(type)) {

@@ -106,6 +106,7 @@ public class Substance extends AbstractURLResource {
 	public void setIdstructure(int idstructure) {
 		this.idstructure = idstructure;
 	}
+	String iupacName;
 	String name;
 	String cas;
 	String einecs;
@@ -136,6 +137,15 @@ public class Substance extends AbstractURLResource {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getIupacName() {
+		return iupacName;
+	}
+
+	public void setIupacName(String iupacName) {
+		this.iupacName = iupacName;
+	}
+	
 	public String getFormula() {
 		return formula;
 	}
