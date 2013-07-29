@@ -18,6 +18,26 @@ Latest artifact:
 </dependency>
 ````
 
+Repositories
+````
+<repository>
+    <snapshots>
+       <enabled>false</enabled>
+    </snapshots>
+    <id>ambit-plovdiv-releases</id>
+      <name>ambit-plovdiv-releases</name>
+    <url>http://ambit.uni-plovdiv.bg:8083/nexus/content/repositories/releases</url>
+</repository>
+<repository>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <id>ambit-plovdiv-snapshots</id>
+    <name>ambit-plovdiv-snapshots</name>
+    <url>http://ambit.uni-plovdiv.bg:8083/nexus/content/repositories/snapshots</url>
+</repository>
+````
+
 <a href='http://opentox.org'><img src='http://opentox.org/logo.png'></a>
 
 
