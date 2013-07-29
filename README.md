@@ -3,7 +3,7 @@ opentox-cli
 
 OpenTox REST API client library
 
-Maven repository
+[Apache Maven](http://maven.apache.org/) repository
 ---
 
  http://ambit.uni-plovdiv.bg:8083/nexus/index.html#nexus-search;quick~opentox-cli
