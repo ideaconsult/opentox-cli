@@ -152,7 +152,7 @@ public class SubstanceClient <POLICY_RULE> extends AbstractClient<Substance,POLI
 					 } else if ("http://www.opentox.org/api/1.1#CASRN".equals(type)) {
 						 substance.setCas(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#EINECS".equals(type)) {
-						 substance.setCas(field.getValue().getTextValue());						 
+						 substance.setEinecs(field.getValue().getTextValue());						 
 					 } else if ("http://www.opentox.org/api/1.1#InChI_std".equals(type)) {
 						 substance.setInChI(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#InChIKey_std".equals(type)) {
