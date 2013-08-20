@@ -29,12 +29,12 @@ import org.opentox.rest.RestException;
 
 /**
  * Substance client renamed to CompoundClient
- * Reads/writes {@link Substance} via OpenTox Compound API
+ * Reads/writes {@link Compound} via OpenTox Compound API
  * @author nina
  *
  * @param <POLICY_RULE>
  */
-public class CompoundClient <POLICY_RULE> extends AbstractClient<Substance,POLICY_RULE> {
+public class CompoundClient <POLICY_RULE> extends AbstractClient<Compound,POLICY_RULE> {
 	public enum QueryType  {smiles,url,mol,inchikey};
 	public CompoundClient() {
 		this(null);
@@ -113,12 +113,12 @@ public class CompoundClient <POLICY_RULE> extends AbstractClient<Substance,POLIC
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<Substance> getIdentifiers(URL queryService, URL compound) throws Exception {
+	public List<Compound> getIdentifiers(URL queryService, URL compound) throws Exception {
 		URL ref = new URL(String.format("%s/query/compound/url/all?search=%s",queryService,URLEncoder.encode(compound.toExternalForm())));
 		return get(ref,mime_json);
 	}
 	
-	public List<Substance> getIdentifiersAndLinks(URL queryService, URL compound) throws Exception {
+	public List<Compound> getIdentifiersAndLinks(URL queryService, URL compound) throws Exception {
 		URL ref = new URL(String.format("%s/query/compound/url/allnlinks?search=%s",queryService,URLEncoder.encode(compound.toExternalForm())));
 		return get(ref,mime_json);
 	}
@@ -126,9 +126,9 @@ public class CompoundClient <POLICY_RULE> extends AbstractClient<Substance,POLIC
 
 	
 	@Override
-	protected List<Substance> processPayload(InputStream in, String mediaType)
+	protected List<Compound> processPayload(InputStream in, String mediaType)
 			throws RestException, IOException {
-		List<Substance> list = null;
+		List<Compound> list = null;
 		if (mime_json.equals(mediaType)) {
 			 ObjectMapper m = new ObjectMapper();
 			 JsonNode node = m.readTree(in);
@@ -136,12 +136,12 @@ public class CompoundClient <POLICY_RULE> extends AbstractClient<Substance,POLIC
 			 JsonNode features = node.get("feature");
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode compound = data.get(i).get("compound");
-				 Substance substance = new Substance(new URL(compound.get("URI").getTextValue()));
+				 Compound substance = new Compound(new URL(compound.get("URI").getTextValue()));
 				 try {substance.setInChI(compound.get("inchi").getTextValue());} catch (Exception x) {}
 				 try {substance.setInChIKey(compound.get("inchikey").getTextValue());} catch (Exception x) {}
 				 try {substance.setSMILES(compound.get("smiles").getTextValue());} catch (Exception x) {}
 				 try {substance.setFormula(compound.get("formula").getTextValue());} catch (Exception x) {}
-				 if (list==null) list = new ArrayList<Substance>();
+				 if (list==null) list = new ArrayList<Compound>();
 				 list.add(substance);
 				 JsonNode vals = data.get(i).get("values");
 				 Iterator<Entry<String,JsonNode>> fields = vals.getFields();
@@ -166,17 +166,17 @@ public class CompoundClient <POLICY_RULE> extends AbstractClient<Substance,POLIC
 						 substance.setInChIKey(field.getValue().getTextValue());
 					 } else if ("http://www.opentox.org/api/1.1#REACHRegistrationDate".equals(type)) {
 						 //
-					 } else if (Substance.opentox_ChEBI.equals(type)) {
+					 } else if (Compound.opentox_ChEBI.equals(type)) {
 						 substance.getProperties().put(type,field.getValue().getTextValue());
-					 } else if (Substance.opentox_ChEMBL.equals(type)) {
+					 } else if (Compound.opentox_ChEMBL.equals(type)) {
 						 substance.getProperties().put(type,field.getValue().getTextValue());
-					 } else if (Substance.opentox_ChemSpider.equals(type)) {
+					 } else if (Compound.opentox_ChemSpider.equals(type)) {
 						 substance.getProperties().put(type,field.getValue().getTextValue());						 
-					 } else if (Substance.opentox_ToxbankWiki.equals(type)) {
+					 } else if (Compound.opentox_ToxbankWiki.equals(type)) {
 						 substance.getProperties().put(type,field.getValue().getTextValue());
-					 } else if (Substance.opentox_CMS.equals(type)) {
+					 } else if (Compound.opentox_CMS.equals(type)) {
 						 substance.getProperties().put(type,field.getValue().getTextValue());			 
-					 } else if (Substance.opentox_Pubchem.equals(type)) {
+					 } else if (Compound.opentox_Pubchem.equals(type)) {
 						 substance.getProperties().put(type,field.getValue().getTextValue());
 					 }
 				 }
@@ -202,34 +202,34 @@ public class CompoundClient <POLICY_RULE> extends AbstractClient<Substance,POLIC
 		} else return super.processPayload(in, mediaType);
 	}
 		
-	public RemoteTask registerSubstanceAsync(URL serviceRoot,Substance substance, String customidName,String customidValue) throws InvalidInputException ,Exception {
+	public RemoteTask registerSubstanceAsync(URL serviceRoot,Compound substance, String customidName,String customidValue) throws InvalidInputException ,Exception {
 		URL ref = new URL(String.format("%s/compound",serviceRoot));
 		return sendAsync(ref, createFormEntity(substance,customidName,customidValue), HttpPost.METHOD_NAME);
 	}
 	
-	public RemoteTask setSubstancePropertyAsync(URL serviceRoot,Substance substance, String customidName,String customidValue) throws InvalidInputException ,Exception {
+	public RemoteTask setSubstancePropertyAsync(URL serviceRoot,Compound substance, String customidName,String customidValue) throws InvalidInputException ,Exception {
 		if (substance.getResourceIdentifier()==null) throw new InvalidInputException("No compound URI");
 		URL ref = new URL(String.format("%s/compound",serviceRoot));
 		return sendAsync(ref, createFormEntity(substance,customidName,customidValue), HttpPut.METHOD_NAME);
 	}
 	
-	protected HttpEntity createFormEntity(Substance substance, String customidName,String customidValue) throws UnsupportedEncodingException {
+	protected HttpEntity createFormEntity(Compound substance, String customidName,String customidValue) throws UnsupportedEncodingException {
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
 		if (substance.getResourceIdentifier()!=null)
 			formparams.add(new BasicNameValuePair("compound_uri", substance.getResourceIdentifier().toExternalForm()));
 		//formparams.add(new BasicNameValuePair("molfile", ??));
 		if (substance.getCas()!=null)
-			formparams.add(new BasicNameValuePair(Substance._titles.CASRN.name(), substance.getCas()));
+			formparams.add(new BasicNameValuePair(Compound._titles.CASRN.name(), substance.getCas()));
 		if (substance.getEinecs()!=null)
-			formparams.add(new BasicNameValuePair(Substance._titles.EINECS.name(), substance.getEinecs()));
+			formparams.add(new BasicNameValuePair(Compound._titles.EINECS.name(), substance.getEinecs()));
 		if (substance.getName()!=null)
-			formparams.add(new BasicNameValuePair(Substance._titles.ChemicalName.name(), substance.getName()));
+			formparams.add(new BasicNameValuePair(Compound._titles.ChemicalName.name(), substance.getName()));
 		if (substance.getInChI()!=null)
-			formparams.add(new BasicNameValuePair(Substance._titles.InChI_std.name(), substance.getInChI()));
+			formparams.add(new BasicNameValuePair(Compound._titles.InChI_std.name(), substance.getInChI()));
 		if (substance.getInChIKey()!=null)
-			formparams.add(new BasicNameValuePair(Substance._titles.InChIKey_std.name(), substance.getInChIKey()));
+			formparams.add(new BasicNameValuePair(Compound._titles.InChIKey_std.name(), substance.getInChIKey()));
 		if (substance.getIUCLID_UUID()!=null)
-			formparams.add(new BasicNameValuePair(Substance._titles.IUCLID5_UUID.name(),substance.getIUCLID_UUID()));
+			formparams.add(new BasicNameValuePair(Compound._titles.IUCLID5_UUID.name(),substance.getIUCLID_UUID()));
 		if ((customidName!=null) && (customidValue!=null)) {
 			formparams.add(new BasicNameValuePair("customidname", customidName));
 			formparams.add(new BasicNameValuePair("customid", customidValue));

@@ -7,14 +7,14 @@ import junit.framework.Assert;
 import net.idea.opentox.cli.Resources;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.structure.CompoundClient.QueryType;
-import net.idea.opentox.cli.structure.Substance;
+import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.task.RemoteTask;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 
-public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substance,POLICY_RULE,CompoundClient<POLICY_RULE>> {
+public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Compound,POLICY_RULE,CompoundClient<POLICY_RULE>> {
 
 	@Override
 	protected CompoundClient<POLICY_RULE> getOTClient() {
@@ -38,7 +38,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 		//verify one record is retrieved
 		Assert.assertEquals(1,uri.size());
 		//retrieve organisation details
-		List<Substance> subst = otClient.getRDF_XML(uri.get(0));
+		List<Compound> subst = otClient.getRDF_XML(uri.get(0));
 		//verify one record is retrieved
 		Assert.assertEquals(1,subst.size());
 		Assert.assertEquals(uri.get(0),subst.get(0).getResourceIdentifier());
@@ -104,7 +104,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	@Override
 	public void testCreate() throws Exception {
 		CompoundClient<POLICY_RULE> otClient = getOTClient();
-		Substance substance = new Substance();
+		Compound substance = new Compound();
 		substance.setCas("50-00-0");
 		//POST
 		RemoteTask task = otClient.registerSubstanceAsync(new URL(TEST_SERVER), substance,"TEST_ID","12345");
@@ -124,7 +124,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	@Override
 	public void testUpdate() throws Exception {
 		CompoundClient<POLICY_RULE> otClient = getOTClient();
-		Substance substance = new Substance();
+		Compound substance = new Compound();
 		substance.setResourceIdentifier(new URL(String.format("%s%s/%d%s/%d",TEST_SERVER,Resources.compound,1,Resources.conformer,1)));
 		//POST
 		RemoteTask task = otClient.setSubstancePropertyAsync(new URL(TEST_SERVER), substance,"TEST_ID","12345");
@@ -147,15 +147,15 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	public void testReadIdentifiers() throws Exception {
 		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		//get the first record
-		List<Substance> substances = otClient.getIdentifiersAndLinks(
+		List<Compound> substances = otClient.getIdentifiersAndLinks(
 				new URL(String.format("%s", TEST_SERVER)),//bosentan
 				new URL(String.format("%s%s/147621", TEST_SERVER,Resources.compound))
 				);		
-		for (Substance s : substances) {
+		for (Compound s : substances) {
 			Assert.assertNotNull(s.getResourceIdentifier());
 			System.out.println(s.getName());
 			System.out.println(s.getResourceIdentifier());
-			System.out.println(s.getProperties().get(Substance.opentox_ChEBI));
+			System.out.println(s.getProperties().get(Compound.opentox_ChEBI));
 		}
 	}
 }
