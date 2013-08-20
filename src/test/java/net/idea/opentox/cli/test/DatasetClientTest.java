@@ -11,6 +11,8 @@ import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.dataset.InputData;
 import net.idea.opentox.cli.dataset.Rights;
 import net.idea.opentox.cli.dataset.Rights._type;
+import net.idea.opentox.cli.structure.Compound;
+import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.task.RemoteTask;
 
 import org.apache.http.HttpStatus;
@@ -70,11 +72,19 @@ public class DatasetClientTest<POLICY_RULE> extends AbstractClientTest<Dataset,P
 		//verify if ok
 		Assert.assertEquals(HttpStatus.SC_OK,task.getStatus());
 		Assert.assertNull(task.getError());
-		List<Dataset> theDataset = cli.getJSON(new URL(String.format("%s/metadata",task.getResult()+"/metadata")));
+		List<Dataset> theDataset = cli.getMetadata(task.getResult());
 		Assert.assertEquals(1,theDataset.size());
 		Assert.assertEquals(dataset.getMetadata().getTitle(),theDataset.get(0).getMetadata().getTitle());
 		Assert.assertEquals(dataset.getMetadata().getSeeAlso(),theDataset.get(0).getMetadata().getSeeAlso());
 		Assert.assertEquals(task.getResult(),theDataset.get(0).getResourceIdentifier());
+		
+		CompoundClient<POLICY_RULE> ccli = otclient.getCompoundClient();
+		List<Compound> compounds = cli.getCompounds(theDataset.get(0), ccli);
+		Assert.assertNotNull(compounds);
+		for (Compound compound : compounds) {
+			System.out.println(compound);
+		}
+
 		//finally delete the dataset
 		cli.delete(theDataset.get(0));		
 	}

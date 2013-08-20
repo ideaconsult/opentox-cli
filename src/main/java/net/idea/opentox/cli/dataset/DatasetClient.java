@@ -9,7 +9,8 @@ import java.util.List;
 import net.idea.opentox.cli.AbstractClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.dataset.Rights._type;
-import net.idea.opentox.cli.task.RemoteTask;
+import net.idea.opentox.cli.structure.Compound;
+import net.idea.opentox.cli.structure.CompoundClient;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -144,5 +145,41 @@ public class DatasetClient<POLICY_RULE> extends AbstractClient<Dataset,POLICY_RU
 		if (entity.size()==0) throw new InvalidInputException("No content!");
 		return new UrlEncodedFormEntity(entity, "UTF-8");
 	}
-
+	/**
+	 * Retrieves the dataset metadata, given dataset object
+	 * @param dataset
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Dataset> getMetadata(Dataset dataset) throws Exception {
+		return get(new URL(String.format("%s/metadata", dataset.getResourceIdentifier())),mime_json);
+	}
+	/**
+	 * Retrieves the dataset metadata, given dataset URI
+	 * @param datasetURI
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Dataset> getMetadata(String datasetURI) throws Exception {
+		return get(new URL(String.format("%s/metadata", datasetURI)),mime_json);
+	}	
+	/**
+	 * Retrieves the dataset metadata, given dataset URI
+	 * @param datasetURI
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Dataset> getMetadata(URL datasetURI) throws Exception {
+		return get(new URL(String.format("%s/metadata", datasetURI)),mime_json);
+	}
+	/**
+	 * Retrieves dataset compounds
+	 * @param dataset
+	 * @param cli
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Compound> getCompounds(Dataset dataset, CompoundClient cli) throws Exception {
+		return cli.getJSON(dataset.getResourceIdentifier());
+	}
 }
