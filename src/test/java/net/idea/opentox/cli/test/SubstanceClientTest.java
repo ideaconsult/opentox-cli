@@ -5,25 +5,25 @@ import java.util.List;
 
 import junit.framework.Assert;
 import net.idea.opentox.cli.Resources;
+import net.idea.opentox.cli.structure.CompoundClient;
+import net.idea.opentox.cli.structure.CompoundClient.QueryType;
 import net.idea.opentox.cli.structure.Substance;
-import net.idea.opentox.cli.structure.SubstanceClient;
-import net.idea.opentox.cli.structure.SubstanceClient.QueryType;
 import net.idea.opentox.cli.task.RemoteTask;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 
-public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substance,POLICY_RULE,SubstanceClient<POLICY_RULE>> {
+public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substance,POLICY_RULE,CompoundClient<POLICY_RULE>> {
 
 	@Override
-	protected SubstanceClient<POLICY_RULE> getOTClient() {
-		return otclient.getSubstanceClient();
+	protected CompoundClient<POLICY_RULE> getOTClient() {
+		return otclient.getCompoundClient();
 	}
 	
 	@Override
 	public void testList() throws Exception {
-		SubstanceClient<POLICY_RULE> otClient = getOTClient();
+		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		List<URL> uri = otClient.listURI(new URL(String.format("%s%s/1", TEST_SERVER,Resources.compound)));
 		System.out.println(uri);
 		Assert.assertTrue(uri.size()>0);
@@ -31,7 +31,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	
 	@Override
 	public void testRead() throws Exception {
-		SubstanceClient<POLICY_RULE> otClient = getOTClient();
+		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		//get the first record
 		List<URL> uri = otClient.listURI(new URL(String.format("%s%s/1", TEST_SERVER,Resources.compound)),
 				new String[] {"page","0","pagesize","1"});		
@@ -49,7 +49,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	@Test
 	public void testSearch() throws Exception {
 		
-		SubstanceClient cli = getOTClient();
+		CompoundClient cli = getOTClient();
 		//get the first record
 		List<URL> uri = cli.searchSimilarStructuresURI(new URL(TEST_SERVER),"benzene",0.6);
 		//verify if a record is retrieved
@@ -66,7 +66,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	@Test
 	public void testSearchMol() throws Exception {
 		
-		SubstanceClient cli = getOTClient();
+		CompoundClient cli = getOTClient();
 		//get the first record
 		List<URL> uri = cli.searchSimilarStructuresURI(new URL(TEST_SERVER),mol,QueryType.mol,true,0.6);
 		//verify if a record is retrieved
@@ -103,7 +103,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	
 	@Override
 	public void testCreate() throws Exception {
-		SubstanceClient<POLICY_RULE> otClient = getOTClient();
+		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		Substance substance = new Substance();
 		substance.setCas("50-00-0");
 		//POST
@@ -123,7 +123,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	
 	@Override
 	public void testUpdate() throws Exception {
-		SubstanceClient<POLICY_RULE> otClient = getOTClient();
+		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		Substance substance = new Substance();
 		substance.setResourceIdentifier(new URL(String.format("%s%s/%d%s/%d",TEST_SERVER,Resources.compound,1,Resources.conformer,1)));
 		//POST
@@ -145,7 +145,7 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 	}
 	@Test
 	public void testReadIdentifiers() throws Exception {
-		SubstanceClient<POLICY_RULE> otClient = getOTClient();
+		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		//get the first record
 		List<Substance> substances = otClient.getIdentifiersAndLinks(
 				new URL(String.format("%s", TEST_SERVER)),//bosentan

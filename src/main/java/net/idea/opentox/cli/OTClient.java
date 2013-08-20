@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Hashtable;
 
-import net.idea.opentox.cli.structure.SubstanceClient;
+import net.idea.opentox.cli.dataset.DatasetClient;
+import net.idea.opentox.cli.structure.CompoundClient;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -81,10 +82,21 @@ public class OTClient {
 		}
 	}
 	
-	public SubstanceClient getSubstanceClient() {
-		return new SubstanceClient(getHttpClient());
+	/**
+	 * @deprecated Use getCompoundClient()
+	 * @return
+	 */
+	public CompoundClient getSubstanceClient() {
+		return new CompoundClient(getHttpClient());
 	}
 	
+	public CompoundClient getCompoundClient() {
+		return new CompoundClient(getHttpClient());
+	}
+	
+	public DatasetClient getDatasetClient() {
+		return new DatasetClient(getHttpClient());
+	}
 	
 	
 	/**

@@ -5,6 +5,11 @@ import java.util.Hashtable;
 
 import net.idea.opentox.cli.AbstractURLResource;
 
+/**
+ * OpenTox Compound
+ * @author nina
+ *
+ */
 public class Substance extends AbstractURLResource {
 	/**
 	 * 

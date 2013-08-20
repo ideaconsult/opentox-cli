@@ -411,6 +411,9 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	}
 	
 	public static OpenSSOToken login(String username,String password) throws Exception {
+		return loginOpenAM(username,password);
+	}
+	public static OpenSSOToken loginOpenAM(String username,String password) throws Exception {
 		OpenSSOToken token = new OpenSSOToken(AAServicesConfig.getSingleton().getOpenSSOService());
 		if (token.login(username,password)) {
 			//AAClient.setTokenFactory();
