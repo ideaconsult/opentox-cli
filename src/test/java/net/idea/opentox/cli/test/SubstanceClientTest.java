@@ -149,8 +149,9 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Compoun
 		//get the first record
 		List<Compound> substances = otClient.getIdentifiersAndLinks(
 				new URL(String.format("%s", TEST_SERVER)),//bosentan
-				new URL(String.format("%s%s/147621", TEST_SERVER,Resources.compound))
-				);		
+				new URL(String.format("%s%s/1", TEST_SERVER,Resources.compound))
+				);	
+		Assert.assertNotNull(substances);
 		for (Compound s : substances) {
 			Assert.assertNotNull(s.getResourceIdentifier());
 			System.out.println(s.getName());

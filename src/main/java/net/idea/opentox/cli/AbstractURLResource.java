@@ -15,4 +15,8 @@ public class AbstractURLResource extends AbstractIdentifiableResource<URL> imple
 	public AbstractURLResource(URL identifier) {
 		setResourceIdentifier(identifier);
 	}
+	@Override
+	public String toString() {
+		return (getResourceIdentifier()==null)?null:getResourceIdentifier().toString();
+	}
 }

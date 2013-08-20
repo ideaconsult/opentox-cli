@@ -93,6 +93,11 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	public List<T> getRDF_XML(URL url) throws Exception {
 		return get(url,mime_rdfxml);
 	}
+	
+	
+	public List<T> getJSON(URL url) throws Exception {
+		return get(url,mime_json);
+	}
 	/**
 	 * 
 	 * @param url
