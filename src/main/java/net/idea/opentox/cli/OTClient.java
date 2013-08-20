@@ -10,6 +10,8 @@ import net.idea.opentox.cli.structure.CompoundClient;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
@@ -40,6 +42,7 @@ public class OTClient {
 
 	protected HttpClient createHTTPClient() {
 		HttpClient cli = new DefaultHttpClient();
+		
 		((DefaultHttpClient)cli).addRequestInterceptor(new HttpRequestInterceptor() {
 			public void process(HttpRequest request, HttpContext context)
 					throws HttpException, IOException {
@@ -130,5 +133,24 @@ public class OTClient {
 		//TODO get form config
 		return new OpenSSOPolicy("http://opensso.in-silico.ch/Pol/opensso-pol");
 	}
-	
+	/**
+	 * Use this to authenticate with HTTP BASIC instead of OpenSSO
+	 * @param host
+	 * @param port
+	 * @param username
+	 * @param password
+	 */
+	public void setHTTPBasicCredentials(String host, int port, String username, String password) {
+		setHTTPBasicCredentials(new AuthScope(host,port),new UsernamePasswordCredentials(username,password));
+	}
+	/**
+	 * Use this to authenticate with HTTP BASIC instead of OpenSSO
+	 * @param authScope
+	 * @param credentials
+	 */
+	public void setHTTPBasicCredentials(AuthScope authScope,UsernamePasswordCredentials credentials) {
+		((DefaultHttpClient)getHttpClient()).getCredentialsProvider().setCredentials(
+				authScope,
+                credentials);
+	}
 }

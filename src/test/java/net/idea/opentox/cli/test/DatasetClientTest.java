@@ -58,6 +58,9 @@ public class DatasetClientTest<POLICY_RULE> extends AbstractClientTest<Dataset,P
 	
 	@Override
 	public void testCreate() throws Exception {
+		//in case the TEST_SERVER uses HTTP BASIC
+		otclient.setHTTPBasicCredentials("localhost", 8080,"admin", "changeit");
+		
 		DatasetClient<POLICY_RULE> cli = getOTClient();
 		URL url = getClass().getClassLoader().getResource("net/idea/opentox/cli/test/sdf/1000-90-4.sdf");
 		File fileToImport = new File(url.getFile());

@@ -94,7 +94,7 @@ http://opentox.org/dev/apis/api-1.2</description>
 	<groupId>org.codehaus.jackson</groupId>
 	<artifactId>jackson-mapper-asl</artifactId>
 	<version>1.9.12</version>
-</dependency>            
+</dependency>          
   </dependencies>
   <scm>
   	<connection>scm:git:git://github.com/ideaconsult/opentox-cli.git</connection>
