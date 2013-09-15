@@ -1,14 +1,13 @@
-opentox-cli
-===========
+#<href='http://opentox.org'><img src='http://opentox.org/logo.png'></a> Opentox-cli
 
-OpenTox REST API client library
 
-[Apache Maven](http://maven.apache.org/) repository
----
+Opentox-cli is an [OpenTox REST API](http://opentox.org/dev/apis) Java client library
+
+##[Maven](http://maven.apache.org/) repository
 
  http://ambit.uni-plovdiv.bg:8083/nexus/index.html#nexus-search;quick~opentox-cli
 
-Latest artifact: 
+### Latest artifact: 
 
 ```` 
 <dependency>
@@ -18,7 +17,7 @@ Latest artifact:
 </dependency>
 ````
 
-Repositories
+### Repositories
 ````
 <repository>
     <snapshots>
@@ -38,7 +37,12 @@ Repositories
 </repository>
 ````
 
-<a href='http://opentox.org'><img src='http://opentox.org/logo.png'></a>
+## OpenTox API extensions
+
+### AMBIT JSON extension 
+   
+[Documentation](https://github.com/ideaconsult/examples-ambit/tree/master/ambit-json-docs)
+
 
 
 
