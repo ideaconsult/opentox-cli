@@ -177,11 +177,12 @@ public class AbstractClient<T extends IIdentifiableResource<URL>,POLICY_RULE> {
 	
 	}
 	
+	
 	protected List<T>  processPayload(InputStream in, String mediaType) throws RestException, IOException {
 		throw new RestException(HttpStatus.SC_OK,"Everything's fine, but parsing content is not implemented yet "+mediaType);
 	}
 	
-	private String prepareParams(URL url,String... params) {
+	protected String prepareParams(URL url,String... params) {
 		String address = url.toString();
 		if (params != null) {
 			StringBuilder b = new StringBuilder();
