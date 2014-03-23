@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.idea.opentox.cli.AbstractClient;
+import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.dataset.Rights._type;
 import net.idea.opentox.cli.structure.Compound;
@@ -32,7 +32,7 @@ import org.opentox.rest.RestException;
  *
  * @param <POLICY_RULE>
  */
-public class DatasetClient<POLICY_RULE> extends AbstractClient<Dataset,POLICY_RULE> {
+public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY_RULE> {
 	protected enum _WEBFORM {
 		file,
 		title,

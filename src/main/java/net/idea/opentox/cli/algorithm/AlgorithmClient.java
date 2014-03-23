@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.idea.opentox.cli.AbstractClient;
+import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.dataset.Dataset;
 import net.idea.opentox.cli.model.Model;
@@ -20,7 +20,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.opentox.rest.RestException;
 
 
-public class AlgorithmClient<POLICY_RULE> extends AbstractClient<Algorithm ,POLICY_RULE> {
+public class AlgorithmClient<POLICY_RULE> extends AbstractURIClient<Algorithm ,POLICY_RULE> {
 
 	/**
 	 * Create opentox Model

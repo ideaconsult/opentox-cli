@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.idea.opentox.cli.AbstractClient;
+import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.task.RemoteTask;
 
@@ -34,7 +34,7 @@ import org.opentox.rest.RestException;
  *
  * @param <POLICY_RULE>
  */
-public class CompoundClient <POLICY_RULE> extends AbstractClient<Compound,POLICY_RULE> {
+public class CompoundClient <POLICY_RULE> extends AbstractURIClient<Compound,POLICY_RULE> {
 	public enum QueryType  {smiles,url,mol,inchikey};
 	public CompoundClient() {
 		this(null);

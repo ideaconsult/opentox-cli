@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.idea.opentox.cli.AbstractClient;
+import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.algorithm.Algorithm;
 import net.idea.opentox.cli.dataset.Dataset;
@@ -19,7 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.opentox.rest.RestException;
 
-public class ModelClient<POLICY_RULE> extends AbstractClient<Model,POLICY_RULE> {
+public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RULE> {
 
 	/**
 	 * Async prediction
