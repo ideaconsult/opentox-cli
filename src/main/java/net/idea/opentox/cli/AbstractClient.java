@@ -78,6 +78,15 @@ public abstract class AbstractClient<IDENTIFIER,T extends IIdentifiableResource<
 	}
 	protected abstract List<T> get(IDENTIFIER url,String mediaType,String... params) throws RestException, IOException;
 	
+	protected List<T> getByIdentifier(IDENTIFIER identifier,String mediaType,String... params) throws RestException, IOException {
+		if (identifier instanceof URL)
+			return getURL((URL)identifier, mediaType, params);
+		else try {
+			return getURL(new URL(identifier.toString()), mediaType, params);
+		} catch (Exception x) {
+			throw new RestException(HttpStatus.SC_BAD_REQUEST,identifier.toString() + " is not valid URL");
+		}
+	}
 	protected List<T> getURL(URL url,String mediaType,String... params) throws RestException, IOException {
 		String address = prepareParams(url, params);
 		HttpGet httpGet = new HttpGet(address);

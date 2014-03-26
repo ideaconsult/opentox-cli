@@ -7,9 +7,6 @@ import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.structure.CompoundClient;
 
 import org.apache.http.HttpRequest;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.opentox.aa.opensso.OpenSSOPolicy;
 import org.opentox.aa.opensso.OpenSSOToken;
 
