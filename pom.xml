@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ambit</groupId>
@@ -9,8 +9,8 @@
 http://opentox.org/dev/apis/api-1.2</description>
   <url>https://github.com/ideaconsult/opentox-cli</url>
   <issueManagement>
-  	<system>GitHub</system>
-  	<url>https://github.com/ideaconsult/opentox-cli/issues</url>
+    <system>GitHub</system>
+    <url>https://github.com/ideaconsult/opentox-cli/issues</url>
   </issueManagement>
   <inceptionYear>2012</inceptionYear>
   <licenses>
@@ -20,8 +20,8 @@ http://opentox.org/dev/apis/api-1.2</description>
       <distribution>repo</distribution>
       <comments>LGPL 3</comments>
     </license>
-  </licenses>    
-   <distributionManagement>
+  </licenses>
+  <distributionManagement>
     <snapshotRepository>
       <id>ambit-plovdiv-snapshots</id>
       <url>http://ambit.uni-plovdiv.bg:8083/nexus/content/repositories/snapshots</url>
@@ -38,7 +38,7 @@ http://opentox.org/dev/apis/api-1.2</description>
     </site>
  	 -->
   </distributionManagement>
-    <repositories>
+  <repositories>
     <repository>
       <snapshots>
         <enabled>false</enabled>
@@ -57,12 +57,11 @@ http://opentox.org/dev/apis/api-1.2</description>
     </repository>
   </repositories>
   <dependencies>
-	<dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpclient</artifactId>
-		<version>4.3.5</version>
-	</dependency>
-    
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.5</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
@@ -71,43 +70,43 @@ http://opentox.org/dev/apis/api-1.2</description>
     <dependency>
       <groupId>ambit</groupId>
       <artifactId>opentox-opensso</artifactId>
-      <version>1.0.4</version>
+      <version>2.0.0-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
     <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>${junit.version}</version>
-    	<scope>test</scope>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
-	<groupId>commons-codec</groupId>
-	<artifactId>commons-codec</artifactId>
-	<version>1.9</version>
-	</dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.9</version>
+    </dependency>
     <dependency>
-	<groupId>org.codehaus.jackson</groupId>
-	<artifactId>jackson-core-lgpl</artifactId>
-	<version>1.9.12</version>
-</dependency>
-<dependency>
-	<groupId>org.codehaus.jackson</groupId>
-	<artifactId>jackson-mapper-asl</artifactId>
-	<version>1.9.12</version>
-</dependency>          
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-lgpl</artifactId>
+      <version>1.9.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.12</version>
+    </dependency>
   </dependencies>
   <scm>
-  	<connection>scm:git:git://github.com/ideaconsult/opentox-cli.git</connection>
-  	<developerConnection>scm:git:git@github.com:ideaconsult/opentox-cli.git</developerConnection>
-  	<url>https://github.com/ideaconsult/opentox-cli.git</url>
+    <connection>scm:git:git://github.com/ideaconsult/opentox-cli.git</connection>
+    <developerConnection>scm:git:git@github.com:ideaconsult/opentox-cli.git</developerConnection>
+    <url>https://github.com/ideaconsult/opentox-cli.git</url>
   </scm>
   <organization>
-  	<name>IdeaConsult Ltd.</name>
-  	<url>http://www.ideaconsult.net</url>
+    <name>IdeaConsult Ltd.</name>
+    <url>http://www.ideaconsult.net</url>
   </organization>
   <build>
-  <pluginManagement>
+    <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -140,9 +139,9 @@ http://opentox.org/dev/apis/api-1.2</description>
         </plugin>
       </plugins>
     </pluginManagement>
-</build>
+  </build>
   <properties>
-  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  	<junit.version>4.8.1</junit.version>
-  </properties>  
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.8.1</junit.version>
+  </properties>
 </project>
