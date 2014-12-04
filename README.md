@@ -13,7 +13,7 @@ Opentox-cli is an [OpenTox REST API](http://opentox.org/dev/apis) Java client li
 <dependency>
   <groupId>ambit</groupId>
   <artifactId>opentox-client</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
 </dependency>
 ````
 
