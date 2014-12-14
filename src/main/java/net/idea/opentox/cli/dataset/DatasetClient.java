@@ -87,6 +87,7 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 			 ObjectMapper m = new ObjectMapper();
 			 JsonNode node = m.readTree(in);
 			 ArrayNode data = (ArrayNode)node.get("dataset");
+			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode metadata = data.get(i);
 				 Dataset dataset = new Dataset(new URL(metadata.get("URI").getTextValue()));

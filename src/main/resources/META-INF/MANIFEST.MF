@@ -1,0 +1,14 @@
+Manifest-version: 1.0
+Package: net.idea.opentox.cli
+Main-Class: net.idea.opentox.main.MainApp
+
+Name: net/idea/opentox/cli
+Specification-Title: AMBIT REST client
+Specification-Vendor: IdeaConsult Ltd.
+Specification-Version: 2012
+Package-Title: net.idea.opentox.cli
+Package-Version: ${project.version}
+Package-Vendor: IdeaConsult Ltd.
+Implementation-Title: AMBIT REST client ${ambit.version}
+Implementation-Version: ${project.version}
+Implementation-Vendor: IdeaConsult Ltd.

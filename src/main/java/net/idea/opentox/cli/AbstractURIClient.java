@@ -99,7 +99,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	protected List<T> get(URL url,String mediaType,String... params) throws RestException, IOException {
+	public List<T> get(URL url,String mediaType,String... params) throws RestException, IOException {
 		String address = prepareParams(url, params);
 		HttpGet httpGet = new HttpGet(address);
 		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
