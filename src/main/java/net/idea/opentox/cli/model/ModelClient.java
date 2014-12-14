@@ -110,7 +110,7 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 		if (mime_json.equals(mediaType)) {
 			 ObjectMapper m = new ObjectMapper();
 			 JsonNode node = m.readTree(in);
-			 callback(node);
+			 if (callback!= null) callback.callback(node);
 			 ArrayNode data = (ArrayNode)node.get("model");
 			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {

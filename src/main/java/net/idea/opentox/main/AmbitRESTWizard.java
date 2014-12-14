@@ -28,6 +28,7 @@ import net.idea.opentox.main.MainApp._command;
 import net.idea.opentox.main.MainApp._option;
 import net.idea.opentox.main.MainApp._resource;
 
+import org.codehaus.jackson.JsonNode;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.io.IChemObjectReader.Mode;
@@ -47,7 +48,7 @@ import ambit2.core.io.InteractiveIteratingMDLReader;
  * @author nina
  *
  */
-public class AmbitRESTWizard {
+public class AmbitRESTWizard implements IJSONCallBack {
 	protected NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
 	enum on_off {
 		on {
@@ -270,7 +271,7 @@ public class AmbitRESTWizard {
 				bucket.setHeader(featureHeader);
 				bucket.headerToCSV(writer,",");writer.write('\n');
 				FeatureClient cli = otclient.getFeatureClient();
-
+				cli.setCallback(this);
 				URL url = new URL(String.format("%s/feature", getBase_uri().toExternalForm()));
 				List<Feature> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				for (Feature feature:  list) {
@@ -284,7 +285,9 @@ public class AmbitRESTWizard {
 			}
 			case dataset: {
 				FeatureClient fcli = otclient.getFeatureClient();
+				fcli.setCallback(this);
 				DatasetClient cli = otclient.getDatasetClient();
+				cli.setCallback(this);
 				URL url = new URL(String.format("%s/dataset", getBase_uri().toExternalForm()));
 				List<Dataset> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				Bucket bucket = new Bucket();
@@ -309,7 +312,9 @@ public class AmbitRESTWizard {
 			}
 			case model: {
 				FeatureClient fcli = otclient.getFeatureClient();
+				fcli.setCallback(this);
 				ModelClient cli = otclient.getModelClient();
+				cli.setCallback(this);
 				URL url = new URL(String.format("%s/model", getBase_uri().toExternalForm()));
 				List<Model> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				Bucket bucket = new Bucket();
@@ -337,6 +342,7 @@ public class AmbitRESTWizard {
 			case compound: {
 				if (uri==null) throw new Exception("Missing uri parameter");
 				CompoundClient cli = otclient.getCompoundClient();
+				cli.setCallback(this);
 				Bucket bucket = new Bucket();
 				bucket.setHeader(compoundHeader);
 				bucket.headerToCSV(writer,",");writer.write('\n');
@@ -354,6 +360,7 @@ public class AmbitRESTWizard {
 			}			
 			case querycompound: {
 				CompoundClient cli = otclient.getCompoundClient();
+				cli.setCallback(this);
 				Bucket bucket = new Bucket();
 				bucket.setHeader(new String[] {"URL"});
 				bucket.headerToCSV(writer,",");writer.write('\n');
@@ -513,5 +520,9 @@ public class AmbitRESTWizard {
 	protected void sink(URL url, Bucket bucket) {
 		bucket.put("URL",url.toExternalForm());
 		
+	}
+	@Override
+	public void callback(JsonNode node) {
+		LOGGER.log(Level.INFO,node.toString());
 	}
 }

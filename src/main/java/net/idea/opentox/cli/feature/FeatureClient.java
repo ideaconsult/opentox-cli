@@ -28,7 +28,7 @@ public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature,POLICY
 		if (mime_json.equals(mediaType)) {
 			 ObjectMapper m = new ObjectMapper();
 			 JsonNode node = m.readTree(in);
-			 callback(node);
+			 if (callback!= null) callback.callback(node);
 			 JsonNode data = node.get("feature");
 
 			 Iterator<String> i = data.getFieldNames();

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.idea.opentox.cli.task.RemoteTask;
+import net.idea.opentox.main.IJSONCallBack;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -35,6 +36,14 @@ import org.opentox.rest.RestException;
  * @param <T>
  */
 public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE> extends AbstractClient<URL,T> {
+	protected IJSONCallBack callback = null;
+	public IJSONCallBack getCallback() {
+		return callback;
+	}
+
+	public void setCallback(IJSONCallBack callback) {
+		this.callback = callback;
+	}
 	protected final static Logger LOGGER = Logger.getLogger(AbstractURIClient.class.getName());
 	public AbstractURIClient(HttpClient httpclient) {
 		super();

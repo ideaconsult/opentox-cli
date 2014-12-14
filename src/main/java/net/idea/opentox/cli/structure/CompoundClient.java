@@ -133,7 +133,7 @@ public class CompoundClient <POLICY_RULE> extends AbstractURIClient<Compound,POL
 		if (mime_json.equals(mediaType)) {
 			 ObjectMapper m = new ObjectMapper();
 			 JsonNode node = m.readTree(in);
-			 callback(node);
+			 if (callback!= null) callback.callback(node);
 			 ArrayNode data = (ArrayNode)node.get("dataEntry");
 			 JsonNode features = node.get("feature");
 			 for (int i=0; i < data.size();i++) {

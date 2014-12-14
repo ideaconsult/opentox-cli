@@ -112,14 +112,6 @@ public abstract class AbstractClient<IDENTIFIER,T extends IIdentifiableResource<
 		}
 	
 	}
-	
-	/**
-	 * Parsed JSON
-	 * @param node
-	 */
-	protected void callback(JsonNode node) {
-		
-	}
 
 	
 	protected List<T>  processPayload(InputStream in, String mediaType) throws RestException, IOException {
