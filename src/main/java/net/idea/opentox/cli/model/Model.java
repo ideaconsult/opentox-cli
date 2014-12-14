@@ -1,5 +1,7 @@
 package net.idea.opentox.cli.model;
 
+import java.net.URL;
+
 import net.idea.opentox.cli.AbstractURLResource;
 import net.idea.opentox.cli.algorithm.Algorithm;
 import net.idea.opentox.cli.dataset.Dataset;
@@ -12,6 +14,14 @@ public class Model extends AbstractURLResource {
 	protected Algorithm algorithm;
 	protected Dataset trainingDataset;
 	
+	public Model() {
+		this(null);
+	}
+	
+	public Model(URL url) {
+		super(url);
+	}
+
 	public Algorithm getAlgorithm() {
 		return algorithm;
 	}

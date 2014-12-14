@@ -20,6 +20,8 @@ import net.idea.opentox.cli.dataset.Dataset;
 import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.feature.Feature;
 import net.idea.opentox.cli.feature.FeatureClient;
+import net.idea.opentox.cli.model.Model;
+import net.idea.opentox.cli.model.ModelClient;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.main.MainApp._command;
 import net.idea.opentox.main.MainApp._option;
@@ -265,6 +267,33 @@ public class AmbitRESTWizard {
 				
 				return -1;	
 			}
+			case model: {
+				FeatureClient fcli = otclient.getFeatureClient();
+				ModelClient cli = otclient.getModelClient();
+				URL url = new URL(String.format("%s/model", getBase_uri().toExternalForm()));
+				List<Model> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
+				Bucket bucket = new Bucket();
+				String[][] h = new String[][]{datasetHeader,featureHeader};
+				bucket.setHeaders(h);
+				bucket.headerToCSV(writer,",");writer.write('\n');
+				for (Model model : list) {
+					
+					bucket.clear();
+					sink(model, bucket);
+
+					URL furl = new URL(String.format("%s/feature", dataset.getResourceIdentifier().toExternalForm()));
+					List<Feature> flist = fcli.get(furl,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
+					for (Feature feature:  flist) {
+						sink(feature, bucket);
+						bucket.toCSV(writer,",");
+						writer.write('\n');
+					}
+
+					
+				}
+				
+				return -1;	
+			}			
 			case compound: {
 				CompoundClient cli = otclient.getCompoundClient();
 				List<URL> list = cli.searchExactStructuresURI(getBase_uri(), "50-00-0");
@@ -351,13 +380,23 @@ public class AmbitRESTWizard {
 			return FileOutputState.getWriter(new FileOutputStream(resultFile),resultFile.getName());
 	}
 
-
+	static final String[] modelHeader = new String[] { 
+		"Model.URI","Model.title","Model.algorithm","Model.trainingdataset"};
+	
 	static final String[] datasetHeader = new String[] { 
 		"Dataset.URI","Dataset.title","Dataset.seealso"};
 
 	static final String[] featureHeader = new String[] { 
 		 "Feature.URI","Feature.title","Feature.units","Feature.sameas", "Feature.source", "Feature.type","Feature.nominal", "Feature.numeric","Feature.ismodelprediction"};
 
+	protected void sink(Model model, Bucket bucket) {
+		bucket.put(modelHeader[0],model.getResourceIdentifier().toExternalForm());
+		bucket.put(modelHeader[1],model.getTitle());
+		bucket.put(modelHeader[2],model.getAlgorithm());
+		bucket.put(modelHeader[3],model.getTrainingDataset());
+		
+	}
+	
 	protected void sink(Dataset dataset, Bucket bucket) {
 		bucket.put(datasetHeader[0],dataset.getResourceIdentifier().toExternalForm());
 		bucket.put(datasetHeader[1],dataset.getMetadata().getTitle());
