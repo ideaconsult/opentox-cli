@@ -66,6 +66,17 @@ public class AmbitRESTWizard {
 	}
 	
 	private final static Logger LOGGER = Logger.getLogger(AmbitRESTWizard.class.getName());
+	
+	enum _querytype { auto,similarity,smarts}; 
+	
+	protected _querytype querytype = _querytype.auto;
+	
+	public _querytype getQuerytype() {
+		return querytype;
+	}
+	public void setQuerytype(_querytype querytype) {
+		this.querytype = querytype;
+	}
 	protected String query;
 	public String getQuery() {
 		return query;
@@ -176,6 +187,11 @@ public class AmbitRESTWizard {
 		case query : {
 			if ((argument==null) || "".equals(argument.trim())) return;
 			setQuery(argument.trim());
+			break;			
+		}		
+		case querytype: {
+			if ((argument==null) || "".equals(argument.trim())) return;
+			setQuerytype(_querytype.valueOf(argument.trim()));
 			break;			
 		}		
 		case page : {
@@ -312,13 +328,29 @@ public class AmbitRESTWizard {
 				Bucket bucket = new Bucket();
 				bucket.setHeader(new String[] {"URL"});
 				bucket.headerToCSV(writer,",");writer.write('\n');
-				List<URL> list = cli.searchExactStructuresURI(getBase_uri(), getQuery());
-				for (URL url : list) {
-					sink(url,bucket);
-					bucket.toCSV(writer,",");
-					writer.write('\n');
+				List<URL> list = null;
+				switch (querytype) {
+				case auto: {
+					list = cli.searchExactStructuresURI(getBase_uri(), getQuery());
+					break;
 				}
-				return list.size();	
+				case similarity: {
+					list = cli.searchSimilarStructuresURI(getBase_uri(), getQuery(),0.9);
+					break;
+				}
+				case smarts: {
+					list = cli.searchSubstructuresURI(getBase_uri(), getQuery());
+					break;
+				}
+				}
+				if (list!=null) {
+					for (URL url : list) {
+						sink(url,bucket);
+						bucket.toCSV(writer,",");
+						writer.write('\n');
+					}
+					return list.size();	
+				} else return -1;
 			}
 			}
 			throw new Exception("Unsupported resource");

@@ -217,6 +217,20 @@ public class MainApp {
 				return "q";
 			}
 		},	
+		querytype {
+			@Override
+			public String getArgName() {
+				return "querytype";
+			}
+			@Override
+			public String getDescription() {
+				return "auto | similarity | smarts";
+			}
+			@Override
+			public String getShortName() {
+				return "t";
+			}
+		},			
 		page {
 			@Override
 			public String getArgName() {
