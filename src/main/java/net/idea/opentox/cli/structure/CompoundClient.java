@@ -180,6 +180,10 @@ public class CompoundClient <POLICY_RULE> extends AbstractURIClient<Compound,POL
 						 substance.getProperties().put(type,field.getValue().getTextValue());			 
 					 } else if (Compound.opentox_Pubchem.equals(type)) {
 						 substance.getProperties().put(type,field.getValue().getTextValue());
+					 } else {
+						 String key = field.getKey();
+						 JsonNode value = field.getValue();
+						 substance.getProperties().put(key,(value.getTextValue()==null?Double.toString(value.getDoubleValue()):value.getTextValue()));
 					 }
 				 }
 			 }

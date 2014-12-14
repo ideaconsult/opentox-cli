@@ -161,6 +161,22 @@ public class MainApp {
 			}
 	
 		},	
+		/*
+		json {
+			@Override
+			public String getArgName() {
+				return "json";
+			}
+			@Override
+			public String getDescription() {
+				return "print json  true | false";
+			}
+			@Override
+			public String getShortName() {
+				return "j";
+			}		
+		},
+		*/
 		server {
 			@Override
 			public String getArgName() {
@@ -189,6 +205,34 @@ public class MainApp {
 				return "r";
 			}
 		},	
+		compound_uri {
+			@Override
+			public String getArgName() {
+				return "uri";
+			}
+			@Override
+			public String getDescription() {
+				return "compound_uri";
+			}
+			@Override
+			public String getShortName() {
+				return "u";
+			}
+		},		
+		model_uri {
+			@Override
+			public String getArgName() {
+				return "uri";
+			}
+			@Override
+			public String getDescription() {
+				return "model_uri";
+			}
+			@Override
+			public String getShortName() {
+				return "d";
+			}
+		},		
 		command {
 			@Override
 			public String getArgName() {
@@ -203,20 +247,6 @@ public class MainApp {
 				return "a";
 			}
 		},			
-		uri {
-			@Override
-			public String getArgName() {
-				return "uri";
-			}
-			@Override
-			public String getDescription() {
-				return "uri";
-			}
-			@Override
-			public String getShortName() {
-				return "u";
-			}
-		},	
 		query {
 			@Override
 			public String getArgName() {

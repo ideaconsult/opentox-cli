@@ -68,7 +68,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 	
 	private final static Logger LOGGER = Logger.getLogger(AmbitRESTWizard.class.getName());
 	
-	enum _querytype { auto,similarity,smarts}; 
+	enum _querytype { auto,similarity,smarts,predict}; 
 	
 	protected _querytype querytype = _querytype.auto;
 	
@@ -101,14 +101,22 @@ public class AmbitRESTWizard implements IJSONCallBack {
 	protected int pagesize = 10;
 	protected File file;
 	protected File resultFile;
-	protected URL uri;
 	
-	public URL getUri() {
-		return uri;
+	protected URL compound_uri;
+	public URL getCompound_uri() {
+		return compound_uri;
 	}
-	public void setUri(URL uri) {
-		this.uri = uri;
+	public void setCompound_uri(URL compound_uri) {
+		this.compound_uri = compound_uri;
 	}
+	public URL getModel_uri() {
+		return model_uri;
+	}
+	public void setModel_uri(URL model_uri) {
+		this.model_uri = model_uri;
+	}
+	protected URL model_uri;
+
 	protected URL base_uri;
 	
 	public URL getBase_uri() {
@@ -213,9 +221,16 @@ public class AmbitRESTWizard implements IJSONCallBack {
 			setPagesize(Integer.parseInt(argument.trim()));
 			break;			
 		}		
-		case uri : {
+		case compound_uri : {
+			setCompound_uri(null);
 			if ((argument==null) || "".equals(argument.trim())) return;
-			setUri(new URL(argument.trim()));
+			setCompound_uri(new URL(argument.trim()));
+			break;			
+		}			
+		case model_uri : {
+			setModel_uri(null);
+			if ((argument==null) || "".equals(argument.trim())) return;
+			setModel_uri(new URL(argument.trim()));
 			break;			
 		}			
 		default:
@@ -322,10 +337,8 @@ public class AmbitRESTWizard implements IJSONCallBack {
 				bucket.setHeaders(h);
 				bucket.headerToCSV(writer,",");writer.write('\n');
 				for (Model model : list) {
-					
 					bucket.clear();
 					sink(model, bucket);
-
 					URL furl = new URL(String.format("%s/predicted", model.getResourceIdentifier().toExternalForm()));
 					List<Feature> flist = fcli.get(furl,"application/json");
 					for (Feature feature:  flist) {
@@ -333,21 +346,38 @@ public class AmbitRESTWizard implements IJSONCallBack {
 						bucket.toCSV(writer,",");
 						writer.write('\n');
 					}
-
-					
 				}
-				
 				return list.size();	
 			}		
 			case compound: {
-				if (uri==null) throw new Exception("Missing uri parameter");
-				CompoundClient cli = otclient.getCompoundClient();
-				cli.setCallback(this);
+				if (compound_uri==null) throw new Exception("Missing uri parameter");
+				List<Compound> list = null;
 				Bucket bucket = new Bucket();
-				bucket.setHeader(compoundHeader);
-				bucket.headerToCSV(writer,",");writer.write('\n');
-				
-				List<Compound> list = cli.get(uri,"application/json");
+				switch (querytype) {
+				case predict: {
+					if (model_uri!=null) {
+						ModelClient mcli = otclient.getModelClient();
+						Dataset dataset = new Dataset(compound_uri);
+						Model model = new Model(model_uri);
+						
+						Dataset result = mcli.predict(model, dataset,null);
+						
+						bucket.setHeader(compoundHeader);
+						bucket.headerToCSV(writer,",");writer.write('\n');
+						CompoundClient cli = otclient.getCompoundClient();
+						cli.setCallback(this);
+						list = cli.get(result.getResourceIdentifier(),"application/json");
+						break;
+					} else throw new Exception("model_uri undefined!");
+				}
+				default: {
+					bucket.setHeader(compoundHeader);
+					bucket.headerToCSV(writer,",");writer.write('\n');
+					CompoundClient cli = otclient.getCompoundClient();
+					cli.setCallback(this);
+					list = cli.get(compound_uri,"application/json");
+				}
+				}
 				
 				if (list!=null) {
 					for (Compound compound : list) {
@@ -356,7 +386,9 @@ public class AmbitRESTWizard implements IJSONCallBack {
 						writer.write('\n');
 					}
 					return list.size();	
-				} else return -1;
+				} else 
+					return -1;
+				
 			}			
 			case querycompound: {
 				CompoundClient cli = otclient.getCompoundClient();
@@ -378,6 +410,9 @@ public class AmbitRESTWizard implements IJSONCallBack {
 					list = cli.searchSubstructuresURI(getBase_uri(), getQuery());
 					break;
 				}
+				default: {
+					throw new Exception("Unsupported "+querytype);
+				}
 				}
 				if (list!=null) {
 					for (URL url : list) {
@@ -388,6 +423,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 					return list.size();	
 				} else return -1;
 			}
+		
 			}
 			throw new Exception("Unsupported resource");
 		} catch (Exception x) {
@@ -523,6 +559,6 @@ public class AmbitRESTWizard implements IJSONCallBack {
 	}
 	@Override
 	public void callback(JsonNode node) {
-		LOGGER.log(Level.INFO,node.toString());
+		LOGGER.log(Level.FINE,node.toString());
 	}
 }
