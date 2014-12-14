@@ -101,6 +101,7 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 		return (String[]) params.toArray();
 	}
 	
+	
 	@Override
 	protected List<Model> processPayload(InputStream in, String mediaType)
 			throws RestException, IOException {
@@ -108,6 +109,7 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 		if (mime_json.equals(mediaType)) {
 			 ObjectMapper m = new ObjectMapper();
 			 JsonNode node = m.readTree(in);
+			 callback(node);
 			 ArrayNode data = (ArrayNode)node.get("model");
 			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {

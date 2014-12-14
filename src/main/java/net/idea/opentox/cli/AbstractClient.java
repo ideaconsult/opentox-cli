@@ -14,6 +14,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.codehaus.jackson.JsonNode;
 import org.opentox.rest.RestException;
 
 
@@ -112,6 +113,14 @@ public abstract class AbstractClient<IDENTIFIER,T extends IIdentifiableResource<
 	
 	}
 	
+	/**
+	 * Parsed JSON
+	 * @param node
+	 */
+	protected void callback(JsonNode node) {
+		
+	}
+
 	
 	protected List<T>  processPayload(InputStream in, String mediaType) throws RestException, IOException {
 		throw new RestException(HttpStatus.SC_OK,"Everything's fine, but parsing content is not implemented yet "+mediaType);
