@@ -111,6 +111,7 @@ http://opentox.org/dev/apis/api-1.2</description>
     <url>http://www.ideaconsult.net</url>
   </organization>
   <build>
+  <finalName>mcli</finalName>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -144,6 +145,31 @@ http://opentox.org/dev/apis/api-1.2</description>
         </plugin>
       </plugins>
     </pluginManagement>
+<plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <executions>
+          <execution>
+            <id>create-executable-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptorRefs>
+                <descriptorRef>
+									jar-with-dependencies
+								</descriptorRef>
+              </descriptorRefs>
+              <archive>
+                <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>    
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

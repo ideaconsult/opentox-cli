@@ -93,6 +93,11 @@ public class MainApp {
 	    System.out.println("Examples:");
 	    System.out.println(example1());
 	    System.out.println(example2());
+	    System.out.println(example3());
+	    System.out.println(example4());
+	    System.out.println(example5());
+	    System.out.println(example6());
+	    System.out.println(example7());
 	    Runtime.getRuntime().runFinalization();						 
 		Runtime.getRuntime().exit(0);	
 	}
@@ -232,7 +237,21 @@ public class MainApp {
 			public String getShortName() {
 				return "d";
 			}
-		},		
+		},	
+		feature_uri {
+			@Override
+			public String getArgName() {
+				return "uri";
+			}
+			@Override
+			public String getDescription() {
+				return "feature_uri";
+			}
+			@Override
+			public String getShortName() {
+				return "e";
+			}
+		},			
 		command {
 			@Override
 			public String getArgName() {
@@ -345,28 +364,54 @@ public class MainApp {
 	    	return option;
 		}
 	}
-
 	/**
 	 * 
 	 * @return
 	 */
 	protected static String example1() {
 		return String.format(
-		"Read file and write all tautomers to the standard out : \njava -jar %s\t-f filename.sdf\n",
-		"example-ambit-tautomers-jar-with-dependencies.jar"
+		"Retrieve compound JSON representation: \njava -jar mcli.jar %s\n",
+		"-s http://localhost:8080/ambit2 -r compound -compound_uri http://localhost:8080/ambit2/compound/100"
 		);
-
 	}	
 	
-	/**
-	 * 
-	 * @return
-	 */
 	protected static String example2() {
 		return String.format(
-		"Read file and write only the best tautomers to an SDF file : \njava -jar %s\t-f filename.sdf -o tautomers.sdf -t best\n",
-		"example-ambit-tautomers-jar-with-dependencies.jar"
+		"Run model predictions on compound : \njava -jar mcli.jar %s\n",
+		"-s http://localhost:8080/ambit2 -r compound --compound_uri http://localhost:8080/ambit2/compound/100 -t predict --model_uri http://localhost:8080/ambit2/model/28"
 		);
-
 	}	
+	
+	protected static String example3() {
+		return String.format(
+		"Retrieve metadata of first 10 datasets \njava -jar mcli.jar %s\n",
+		"-s http://localhost:8080/ambit2 -r dataset -z 10 -p 0 -o test.csv"
+		);
+	}
+	protected static String example4() {
+		return String.format(
+		"Retrieve first 5 features \njava -jar mcli.jar  %s\n",
+		"-s http://localhost:8080/ambit2 -r feature -z 5"
+		);
+	}
+	protected static String example5() {
+		return String.format(
+		"Retrieve first 10 models \njava -jar mcli.jar %s\n",
+		"-s http://localhost:8080/ambit2 -r model -z 10 -p 0 -o test.csv"
+		);
+	}
+	protected static String example6() {
+		return String.format(
+		"Search similar compounds to c1ccccc1O \njava -jar mcli.jar %s\n",
+		"-s http://localhost:8080/ambit2 -r querycompound -z 10 -p 0 -q c1ccccc1O -t similarity"
+		);
+	}
+	
+	protected static String example7() {
+		return String.format(
+		"Search substructure c1ccccc1O \njava -jar mcli.jar %s\n",
+		"-s http://localhost:8080/ambit2 -r querycompound -z 10 -p 0 -q c1ccccc1O -t smarts"
+		);
+	}
+
 }

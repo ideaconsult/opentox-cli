@@ -274,10 +274,10 @@ public class AmbitRESTWizard implements IJSONCallBack {
 	}
 	
 	public int processNoFile(OTClient otclient) throws Exception {
+		if (resource==null) throw new Exception("Missing -r resource parameter");
 		Writer writer = null;
 		if (resultFile!=null) writer = new FileWriter(resultFile);
 		else writer = new OutputStreamWriter(System.out);
-		
 		try {
 			switch (resource) {
 			case feature: {
