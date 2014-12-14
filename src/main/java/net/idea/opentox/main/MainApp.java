@@ -20,6 +20,7 @@ public class MainApp {
 	public static OTClient otclient ;
 	
 	enum _resource {
+		querycompound,
 		feature,
 		dataset,
 		compound,
@@ -188,7 +189,6 @@ public class MainApp {
 				return "r";
 			}
 		},	
-	
 		command {
 			@Override
 			public String getArgName() {
@@ -203,6 +203,20 @@ public class MainApp {
 				return "a";
 			}
 		},			
+		uri {
+			@Override
+			public String getArgName() {
+				return "uri";
+			}
+			@Override
+			public String getDescription() {
+				return "uri";
+			}
+			@Override
+			public String getShortName() {
+				return "u";
+			}
+		},	
 		query {
 			@Override
 			public String getArgName() {

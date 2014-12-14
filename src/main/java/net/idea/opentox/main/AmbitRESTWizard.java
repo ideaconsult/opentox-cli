@@ -100,6 +100,14 @@ public class AmbitRESTWizard {
 	protected int pagesize = 10;
 	protected File file;
 	protected File resultFile;
+	protected URL uri;
+	
+	public URL getUri() {
+		return uri;
+	}
+	public void setUri(URL uri) {
+		this.uri = uri;
+	}
 	protected URL base_uri;
 	
 	public URL getBase_uri() {
@@ -204,6 +212,11 @@ public class AmbitRESTWizard {
 			setPagesize(Integer.parseInt(argument.trim()));
 			break;			
 		}		
+		case uri : {
+			if ((argument==null) || "".equals(argument.trim())) return;
+			setUri(new URL(argument.trim()));
+			break;			
+		}			
 		default:
 		}
 	}
@@ -290,8 +303,6 @@ public class AmbitRESTWizard {
 						bucket.toCSV(writer,",");
 						writer.write('\n');
 					}
-
-					
 				}
 				
 				return list.size();	
@@ -322,8 +333,26 @@ public class AmbitRESTWizard {
 				}
 				
 				return list.size();	
-			}			
+			}		
 			case compound: {
+				if (uri==null) throw new Exception("Missing uri parameter");
+				CompoundClient cli = otclient.getCompoundClient();
+				Bucket bucket = new Bucket();
+				bucket.setHeader(compoundHeader);
+				bucket.headerToCSV(writer,",");writer.write('\n');
+				
+				List<Compound> list = cli.get(uri,"application/json");
+				
+				if (list!=null) {
+					for (Compound compound : list) {
+						sink(compound,bucket);
+						bucket.toCSV(writer,",");
+						writer.write('\n');
+					}
+					return list.size();	
+				} else return -1;
+			}			
+			case querycompound: {
 				CompoundClient cli = otclient.getCompoundClient();
 				Bucket bucket = new Bucket();
 				bucket.setHeader(new String[] {"URL"});
@@ -434,7 +463,7 @@ public class AmbitRESTWizard {
 	}
 
 	static final String[] compoundHeader = new String[] { 
-		"Compound.URI"};
+		"Compound.URI","Compound.InChI","Compound.InChIKey","Compound.smiles","Compound.name"};
 
 	
 	static final String[] modelHeader = new String[] { 
@@ -474,6 +503,10 @@ public class AmbitRESTWizard {
 	}
 	protected void sink(Compound compound, Bucket bucket) {
 		bucket.put(compoundHeader[0],compound.getResourceIdentifier().toExternalForm());
+		bucket.put(compoundHeader[1],compound.getInChI());
+		bucket.put(compoundHeader[2],compound.getInChIKey());		
+		bucket.put(compoundHeader[3],compound.getSMILES());
+		bucket.put(compoundHeader[4],compound.getName());
 		
 	}
 	

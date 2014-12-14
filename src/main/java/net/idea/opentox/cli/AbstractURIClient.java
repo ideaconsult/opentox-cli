@@ -35,7 +35,7 @@ import org.opentox.rest.RestException;
  * @param <T>
  */
 public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE> extends AbstractClient<URL,T> {
-	private final static Logger LOGGER = Logger.getLogger(AbstractURIClient.class.getName());
+	protected final static Logger LOGGER = Logger.getLogger(AbstractURIClient.class.getName());
 	public AbstractURIClient(HttpClient httpclient) {
 		super();
 		setHttpClient(httpclient);

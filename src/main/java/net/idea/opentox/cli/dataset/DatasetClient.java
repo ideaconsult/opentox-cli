@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
@@ -183,5 +184,11 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 	 */
 	public List<Compound> getCompounds(Dataset dataset, CompoundClient cli) throws Exception {
 		return cli.getJSON(dataset.getResourceIdentifier());
+	}
+	@Override
+	public List<Dataset> get(URL url, String mediaType, String... params)
+			throws RestException, IOException {
+		LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/dataset");
+		return super.get(url, mediaType, params);
 	}
 }

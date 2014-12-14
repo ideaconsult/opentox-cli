@@ -6,8 +6,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.structure.Compound;
 
 import org.apache.http.client.HttpClient;
 import org.codehaus.jackson.JsonNode;
@@ -56,5 +58,12 @@ public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature,POLICY
 		} else if (mime_csv.equals(mediaType)) {
 			return super.processPayload(in, mediaType);
 		} else return super.processPayload(in, mediaType);
+	}
+	
+	@Override
+	public List<Feature> get(URL url, String mediaType, String... params)
+			throws RestException, IOException {
+		LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/feature");
+		return super.get(url, mediaType, params);
 	}
 }

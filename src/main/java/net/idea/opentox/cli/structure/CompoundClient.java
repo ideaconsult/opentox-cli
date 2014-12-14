@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
@@ -237,5 +238,11 @@ public class CompoundClient <POLICY_RULE> extends AbstractURIClient<Compound,POL
 		}	
 		return new UrlEncodedFormEntity(formparams, "UTF-8");
 	}
-	
+
+	@Override
+	public List<Compound> get(URL url, String mediaType, String... params)
+			throws RestException, IOException {
+		LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/compound");
+		return super.get(url, mediaType, params);
+	}
 }
