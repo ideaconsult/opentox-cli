@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import net.idea.opentox.cli.OTClient;
 import net.idea.opentox.cli.dataset.Dataset;
 import net.idea.opentox.cli.dataset.DatasetClient;
+import net.idea.opentox.cli.feature.Feature;
+import net.idea.opentox.cli.feature.FeatureClient;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.main.MainApp._command;
 import net.idea.opentox.main.MainApp._option;
@@ -59,6 +61,20 @@ public class AmbitRESTWizard {
 	}
 	
 	private final static Logger LOGGER = Logger.getLogger(AmbitRESTWizard.class.getName());
+	protected int page = 0;
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getPagesize() {
+		return pagesize;
+	}
+	public void setPagesize(int pagesize) {
+		this.pagesize = pagesize;
+	}
+	protected int pagesize = 10;
 	protected File file;
 	protected File resultFile;
 	protected URL base_uri;
@@ -145,7 +161,16 @@ public class AmbitRESTWizard {
 			setBase_uri(new URL(argument.trim()));
 			break;			
 		}
-		
+		case page : {
+			if ((argument==null) || "".equals(argument.trim())) return;
+			setPage(Integer.parseInt(argument.trim()));
+			break;			
+		}
+		case pagesize : {
+			if ((argument==null) || "".equals(argument.trim())) return;
+			setPagesize(Integer.parseInt(argument.trim()));
+			break;			
+		}		
 		default:
 		}
 	}
@@ -190,18 +215,34 @@ public class AmbitRESTWizard {
 		try {
 			switch (resource) {
 			case feature: {
+				FeatureClient cli = otclient.getFeatureClient();
+				URL url = new URL(String.format("%s/feature", getBase_uri().toExternalForm()));
+				List<Feature> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
+				for (Feature feature:  list) {
+
+					System.out.print(feature.toString());
+				}
 				
 				return -1;	
 			}
 			case dataset: {
+				FeatureClient fcli = otclient.getFeatureClient();
 				DatasetClient cli = otclient.getDatasetClient();
 				URL url = new URL(String.format("%s/dataset", getBase_uri().toExternalForm()));
-				List<Dataset> list = cli.get(url,"application/json");
+				List<Dataset> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				for (Dataset dataset : list) {
 					
-					String out = String.format("%s\t\"%s\"\t%s\n",dataset.getResourceIdentifier(),dataset.getMetadata().getTitle(),dataset.getMetadata().getSeeAlso());
-					System.out.print(out);
+					System.out.print(dataset.toString());
+					URL furl = new URL(String.format("%s/feature", dataset.getResourceIdentifier().toExternalForm()));
+					List<Feature> flist = fcli.get(furl,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
+					for (Feature feature:  flist) {
+
+						System.out.print(feature.toString());
+					}
+
+					
 				}
+				
 				return -1;	
 			}
 			case compound: {

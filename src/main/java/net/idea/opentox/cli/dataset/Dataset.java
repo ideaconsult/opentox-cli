@@ -35,5 +35,9 @@ public class Dataset extends AbstractURLResource {
 		super(url);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s\t\"%s\"\t%s\n",getResourceIdentifier(),getMetadata().getTitle(),getMetadata().getSeeAlso());
+	}
 	
 }

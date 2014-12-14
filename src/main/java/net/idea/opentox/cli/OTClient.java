@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Hashtable;
 
 import net.idea.opentox.cli.dataset.DatasetClient;
+import net.idea.opentox.cli.feature.FeatureClient;
 import net.idea.opentox.cli.structure.CompoundClient;
 
 import org.apache.http.HttpRequest;
@@ -73,7 +74,9 @@ public class OTClient extends ApplicationClient<OpenSSOToken> {
 		return new DatasetClient(getHttpClient());
 	}
 	
-	
+	public FeatureClient getFeatureClient() {
+		return new FeatureClient(getHttpClient());
+	}
 	/**
 	 *  Returns true if authorized
 	 * @param uri

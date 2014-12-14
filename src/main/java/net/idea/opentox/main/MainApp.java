@@ -204,6 +204,35 @@ public class MainApp {
 			}
 		},			
 		
+		page {
+			@Override
+			public String getArgName() {
+				return "pagenumber";
+			}
+			@Override
+			public String getDescription() {
+				return "Page number, starts with 0, default 0";
+			}
+			@Override
+			public String getShortName() {
+				return "p";
+			}
+		},	
+		
+		pagesize {
+			@Override
+			public String getArgName() {
+				return "pagesize";
+			}
+			@Override
+			public String getDescription() {
+				return "Page size, default 10";
+			}
+			@Override
+			public String getShortName() {
+				return "z";
+			}
+		},	
 		help {
 			@Override
 			public String getArgName() {
