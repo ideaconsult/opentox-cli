@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.List;
@@ -212,15 +214,26 @@ public class AmbitRESTWizard {
 	}
 	
 	public int processNoFile(OTClient otclient) throws Exception {
+		Writer writer = null;
+		if (resultFile!=null) writer = new FileWriter(resultFile);
+		else writer = new OutputStreamWriter(System.out);
+		
 		try {
 			switch (resource) {
 			case feature: {
+				
+				Bucket bucket = new Bucket();
+				bucket.setHeader(featureHeader);
+				bucket.headerToCSV(writer,",");writer.write('\n');
 				FeatureClient cli = otclient.getFeatureClient();
+
 				URL url = new URL(String.format("%s/feature", getBase_uri().toExternalForm()));
 				List<Feature> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				for (Feature feature:  list) {
-
-					System.out.print(feature.toString());
+					bucket.clear();
+					sink(feature, bucket);
+					bucket.toCSV(writer,",");
+					writer.write('\n');
 				}
 				
 				return -1;	
@@ -230,14 +243,21 @@ public class AmbitRESTWizard {
 				DatasetClient cli = otclient.getDatasetClient();
 				URL url = new URL(String.format("%s/dataset", getBase_uri().toExternalForm()));
 				List<Dataset> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
+				Bucket bucket = new Bucket();
+				String[][] h = new String[][]{datasetHeader,featureHeader};
+				bucket.setHeaders(h);
+				bucket.headerToCSV(writer,",");writer.write('\n');
 				for (Dataset dataset : list) {
 					
-					System.out.print(dataset.toString());
+					bucket.clear();
+					sink(dataset, bucket);
+
 					URL furl = new URL(String.format("%s/feature", dataset.getResourceIdentifier().toExternalForm()));
 					List<Feature> flist = fcli.get(furl,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 					for (Feature feature:  flist) {
-
-						System.out.print(feature.toString());
+						sink(feature, bucket);
+						bucket.toCSV(writer,",");
+						writer.write('\n');
 					}
 
 					
@@ -256,7 +276,7 @@ public class AmbitRESTWizard {
 			LOGGER.log(Level.SEVERE,x.getMessage(),x);
 			throw x;
 		} finally {
-			
+			if (writer!=null) { writer.flush(); writer.close();}
 		}
 	}
 	/**
@@ -331,4 +351,29 @@ public class AmbitRESTWizard {
 			return FileOutputState.getWriter(new FileOutputStream(resultFile),resultFile.getName());
 	}
 
+
+	static final String[] datasetHeader = new String[] { 
+		"Dataset.URI","Dataset.title","Dataset.seealso"};
+
+	static final String[] featureHeader = new String[] { 
+		 "Feature.URI","Feature.title","Feature.units","Feature.sameas", "Feature.source", "Feature.type","Feature.nominal", "Feature.numeric","Feature.ismodelprediction"};
+
+	protected void sink(Dataset dataset, Bucket bucket) {
+		bucket.put(datasetHeader[0],dataset.getResourceIdentifier().toExternalForm());
+		bucket.put(datasetHeader[1],dataset.getMetadata().getTitle());
+		bucket.put(datasetHeader[2],dataset.getMetadata().getSeeAlso());
+		
+	}
+	protected void sink(Feature feature, Bucket bucket) {
+		bucket.put(featureHeader[0],feature.getResourceIdentifier().toExternalForm());
+		bucket.put(featureHeader[1],feature.getTitle());
+		bucket.put(featureHeader[2],feature.getUnits());
+		bucket.put(featureHeader[3],feature.getSameAs());
+		bucket.put(featureHeader[4],feature.getSource());
+		bucket.put(featureHeader[5],feature.getType());
+		bucket.put(featureHeader[6],feature.isNominal());
+		bucket.put(featureHeader[7],feature.isNumeric());
+		bucket.put(featureHeader[8],feature.isModelPredictionFeature());
+
+	}
 }
