@@ -255,7 +255,7 @@ public class AmbitRESTWizard {
 					sink(dataset, bucket);
 
 					URL furl = new URL(String.format("%s/feature", dataset.getResourceIdentifier().toExternalForm()));
-					List<Feature> flist = fcli.get(furl,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
+					List<Feature> flist = fcli.get(furl,"application/json");
 					for (Feature feature:  flist) {
 						sink(feature, bucket);
 						bucket.toCSV(writer,",");
@@ -273,7 +273,7 @@ public class AmbitRESTWizard {
 				URL url = new URL(String.format("%s/model", getBase_uri().toExternalForm()));
 				List<Model> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				Bucket bucket = new Bucket();
-				String[][] h = new String[][]{datasetHeader,featureHeader};
+				String[][] h = new String[][]{modelHeader,featureHeader};
 				bucket.setHeaders(h);
 				bucket.headerToCSV(writer,",");writer.write('\n');
 				for (Model model : list) {
@@ -281,8 +281,8 @@ public class AmbitRESTWizard {
 					bucket.clear();
 					sink(model, bucket);
 
-					URL furl = new URL(String.format("%s/feature", dataset.getResourceIdentifier().toExternalForm()));
-					List<Feature> flist = fcli.get(furl,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
+					URL furl = new URL(String.format("%s/predicted", model.getResourceIdentifier().toExternalForm()));
+					List<Feature> flist = fcli.get(furl,"application/json");
 					for (Feature feature:  flist) {
 						sink(feature, bucket);
 						bucket.toCSV(writer,",");

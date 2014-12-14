@@ -13,7 +13,16 @@ public class Model extends AbstractURLResource {
 	private static final long serialVersionUID = 1940040168660924732L;
 	protected Algorithm algorithm;
 	protected Dataset trainingDataset;
+	protected String title;
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public Model() {
 		this(null);
 	}

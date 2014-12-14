@@ -112,18 +112,19 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode metadata = data.get(i);
-				 Model dataset = new Model(new URL(metadata.get("URI").getTextValue()));
+				 Model model = new Model(new URL(metadata.get("URI").getTextValue()));
 				 if (list==null) list = new ArrayList<Model>();
-				 list.add(dataset);
-				 /*
-				 try {dataset.getMetadata().setTitle(metadata.get("title").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().setSeeAlso(metadata.get("seeAlso").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().setStars(metadata.get("stars").getIntValue());} catch (Exception x) {}
-				 dataset.getMetadata().setRights(new Rights());
-				 try {dataset.getMetadata().getRights().setRightsHolder(metadata.get("rightsHolder").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().getRights().setURI(metadata.get("rights").get("URI").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().getRights().setType(_type.rights.valueOf(metadata.get("rights").get("type").getTextValue()));} catch (Exception x) {}
-				 */
+				 list.add(model);
+
+				 try {model.setTitle(metadata.get("title").getTextValue());} catch (Exception x) {}
+				 try {
+					 Dataset dataset = new Dataset(new URL(metadata.get("trainingDataset").getTextValue()));
+					 model.setTrainingDataset(dataset);
+				 } catch (Exception x) {model.setTrainingDataset(null);}
+				 try {
+					 Algorithm algorithm = new Algorithm(new URL(metadata.get("algorithm").get("URI").getTextValue()));
+					 model.setAlgorithm(algorithm);
+				 } catch (Exception x) {model.setAlgorithm(null);}
 			 }
 			 return list;
 		} else if (mime_rdfxml.equals(mediaType)) {
