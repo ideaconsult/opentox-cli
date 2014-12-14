@@ -94,7 +94,7 @@ public abstract class AbstractClient<IDENTIFIER,T extends IIdentifiableResource<
 		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
 		httpGet.addHeader("Accept",mediaType);
 		httpGet.addHeader("Accept-Charset", "utf-8");
-
+		
 		InputStream in = null;
 		try {
 			HttpResponse response = getHttpClient().execute(httpGet);

@@ -22,6 +22,7 @@ import net.idea.opentox.cli.feature.Feature;
 import net.idea.opentox.cli.feature.FeatureClient;
 import net.idea.opentox.cli.model.Model;
 import net.idea.opentox.cli.model.ModelClient;
+import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.main.MainApp._command;
 import net.idea.opentox.main.MainApp._option;
@@ -65,6 +66,13 @@ public class AmbitRESTWizard {
 	}
 	
 	private final static Logger LOGGER = Logger.getLogger(AmbitRESTWizard.class.getName());
+	protected String query;
+	public String getQuery() {
+		return query;
+	}
+	public void setQuery(String query) {
+		this.query = query;
+	}
 	protected int page = 0;
 	public int getPage() {
 		return page;
@@ -165,6 +173,11 @@ public class AmbitRESTWizard {
 			setBase_uri(new URL(argument.trim()));
 			break;			
 		}
+		case query : {
+			if ((argument==null) || "".equals(argument.trim())) return;
+			setQuery(argument.trim());
+			break;			
+		}		
 		case page : {
 			if ((argument==null) || "".equals(argument.trim())) return;
 			setPage(Integer.parseInt(argument.trim()));
@@ -238,7 +251,7 @@ public class AmbitRESTWizard {
 					writer.write('\n');
 				}
 				
-				return -1;	
+				return list.size();	
 			}
 			case dataset: {
 				FeatureClient fcli = otclient.getFeatureClient();
@@ -265,7 +278,7 @@ public class AmbitRESTWizard {
 					
 				}
 				
-				return -1;	
+				return list.size();	
 			}
 			case model: {
 				FeatureClient fcli = otclient.getFeatureClient();
@@ -292,12 +305,20 @@ public class AmbitRESTWizard {
 					
 				}
 				
-				return -1;	
+				return list.size();	
 			}			
 			case compound: {
 				CompoundClient cli = otclient.getCompoundClient();
-				List<URL> list = cli.searchExactStructuresURI(getBase_uri(), "50-00-0");
-				System.out.println(list);
+				Bucket bucket = new Bucket();
+				bucket.setHeader(new String[] {"URL"});
+				bucket.headerToCSV(writer,",");writer.write('\n');
+				List<URL> list = cli.searchExactStructuresURI(getBase_uri(), getQuery());
+				for (URL url : list) {
+					sink(url,bucket);
+					bucket.toCSV(writer,",");
+					writer.write('\n');
+				}
+				return list.size();	
 			}
 			}
 			throw new Exception("Unsupported resource");
@@ -380,6 +401,10 @@ public class AmbitRESTWizard {
 			return FileOutputState.getWriter(new FileOutputStream(resultFile),resultFile.getName());
 	}
 
+	static final String[] compoundHeader = new String[] { 
+		"Compound.URI"};
+
+	
 	static final String[] modelHeader = new String[] { 
 		"Model.URI","Model.title","Model.algorithm","Model.trainingdataset"};
 	
@@ -414,5 +439,14 @@ public class AmbitRESTWizard {
 		bucket.put(featureHeader[7],feature.isNumeric());
 		bucket.put(featureHeader[8],feature.isModelPredictionFeature());
 
+	}
+	protected void sink(Compound compound, Bucket bucket) {
+		bucket.put(compoundHeader[0],compound.getResourceIdentifier().toExternalForm());
+		
+	}
+	
+	protected void sink(URL url, Bucket bucket) {
+		bucket.put("URL",url.toExternalForm());
+		
 	}
 }

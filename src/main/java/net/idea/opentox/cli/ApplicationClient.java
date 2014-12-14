@@ -1,6 +1,7 @@
 package net.idea.opentox.cli;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -12,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
 
 public abstract class ApplicationClient<TOKEN> {
+
 	protected HttpClient httpClient;
 	protected TOKEN ssoToken;
 

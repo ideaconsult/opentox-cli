@@ -7,10 +7,11 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.idea.opentox.cli.task.RemoteTask;
 
@@ -34,7 +35,7 @@ import org.opentox.rest.RestException;
  * @param <T>
  */
 public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE> extends AbstractClient<URL,T> {
-	
+	private final static Logger LOGGER = Logger.getLogger(AbstractURIClient.class.getName());
 	public AbstractURIClient(HttpClient httpclient) {
 		super();
 		setHttpClient(httpclient);
@@ -105,7 +106,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
 		httpGet.addHeader("Accept",mediaType);
 		httpGet.addHeader("Accept-Charset", "utf-8");
-
+		LOGGER.log(Level.INFO,String.format("curl -H \"Accept:%s\" -X GET \"%s\"",mediaType, httpGet.getURI().toString()));
 		InputStream in = null;
 		try {
 			HttpResponse response = getHttpClient().execute(httpGet);
@@ -165,7 +166,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 		HttpGet httpGet = new HttpGet(prepareParams(url, params));
 		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
 		httpGet.addHeader("Accept","text/uri-list");
-
+		LOGGER.log(Level.INFO,String.format("curl -H \"Accept:%s\" -X GET \"%s\"","text/uri-list", httpGet.getURI().toString()));
 		InputStream in = null;
 		try {
 			HttpResponse response = getHttpClient().execute(httpGet);

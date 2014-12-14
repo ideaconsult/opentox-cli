@@ -203,7 +203,20 @@ public class MainApp {
 				return "a";
 			}
 		},			
-		
+		query {
+			@Override
+			public String getArgName() {
+				return "query";
+			}
+			@Override
+			public String getDescription() {
+				return "search term  e.g. search=50-00-0";
+			}
+			@Override
+			public String getShortName() {
+				return "q";
+			}
+		},	
 		page {
 			@Override
 			public String getArgName() {
