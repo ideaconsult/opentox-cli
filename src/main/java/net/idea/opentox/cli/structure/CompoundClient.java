@@ -136,6 +136,7 @@ public class CompoundClient <POLICY_RULE> extends AbstractURIClient<Compound,POL
 			 if (callback!= null) callback.callback(node);
 			 ArrayNode data = (ArrayNode)node.get("dataEntry");
 			 JsonNode features = node.get("feature");
+			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode compound = data.get(i).get("compound");
 				 Compound substance = new Compound(new URL(compound.get("URI").getTextValue()));
