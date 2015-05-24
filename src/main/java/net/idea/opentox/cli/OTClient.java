@@ -7,6 +7,7 @@ import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.feature.FeatureClient;
 import net.idea.opentox.cli.model.ModelClient;
 import net.idea.opentox.cli.structure.CompoundClient;
+import net.idea.opentox.cli.structure.SubstanceClient;
 
 import org.apache.http.HttpRequest;
 import org.opentox.aa.opensso.OpenSSOPolicy;
@@ -60,11 +61,10 @@ public class OTClient extends ApplicationClient<OpenSSOToken> {
 
 	
 	/**
-	 * @deprecated Use getCompoundClient()
 	 * @return
 	 */
-	public CompoundClient getSubstanceClient() {
-		return new CompoundClient(getHttpClient());
+	public SubstanceClient getSubstanceClient() {
+		return new SubstanceClient(getHttpClient());
 	}
 	
 	public CompoundClient getCompoundClient() {

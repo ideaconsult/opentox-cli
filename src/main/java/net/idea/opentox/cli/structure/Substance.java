@@ -3,7 +3,6 @@ package net.idea.opentox.cli.structure;
 import java.net.URL;
 
 /**
- * @deprecated Use {@link Compound}
  * @author nina
  *
  */
