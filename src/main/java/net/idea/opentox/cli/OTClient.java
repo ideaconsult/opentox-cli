@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.feature.FeatureClient;
 import net.idea.opentox.cli.model.ModelClient;
+import net.idea.opentox.cli.qmrf.QMRFDocumentClient;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.structure.SubstanceClient;
 
@@ -81,6 +82,10 @@ public class OTClient extends ApplicationClient<OpenSSOToken> {
 	
 	public ModelClient getModelClient() {
 		return new ModelClient(getHttpClient());
+	}
+	
+	public QMRFDocumentClient getQMRFDocumentClient() {
+		return new QMRFDocumentClient(getHttpClient());
 	}
 	/**
 	 *  Returns true if authorized
