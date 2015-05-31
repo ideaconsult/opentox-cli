@@ -127,7 +127,13 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 				model.read(new InputStreamReader(in,"UTF-8"),OpenTox.URI);
 				return getIOClass().fromJena(model);
 				*/
-				return processPayload(in,mediaType);
+				try {
+					return processPayload(in,mediaType);
+				} catch (RestException x) {
+					throw new RestException(x.getStatus(), String.format("Error retrieving",url),x);
+				} catch (Exception x) {
+					throw new IOException(String.format("Error retrieving",url),x);
+				}
 
 			} else if (response.getStatusLine().getStatusCode()== HttpStatus.SC_NOT_FOUND) {	
 				return Collections.emptyList();
