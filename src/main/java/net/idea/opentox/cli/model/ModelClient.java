@@ -104,7 +104,7 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 	
 	
 	@Override
-	protected List<Model> processPayload(InputStream in, String mediaType)
+	public List<Model> processPayload(InputStream in, String mediaType)
 			throws RestException, IOException {
 		List<Model> list = null;
 		if (mime_json.equals(mediaType)) {

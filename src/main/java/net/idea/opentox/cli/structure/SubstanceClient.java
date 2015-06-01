@@ -27,8 +27,8 @@ public class SubstanceClient<POLICY_RULE> extends AbstractURIClient<Substance,PO
 	public SubstanceClient(HttpClient httpclient) {
 		super(httpclient);
 	}
-	
-	protected List<Substance> processPayload(InputStream in, String mediaType)
+	@Override
+	public List<Substance> processPayload(InputStream in, String mediaType)
 			throws RestException, IOException {
 		List<Substance> list = null;
 		if (mime_json.equals(mediaType)) {

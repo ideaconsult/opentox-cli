@@ -34,7 +34,7 @@ public class StressTest extends
 	public void testRead() throws Exception {
 
 		ExecutorService xs = Executors.newCachedThreadPool();
-		int nt = 100;
+		int nt = 1000;
 
 		MyThread[] threads = new MyThread[nt];
 		for (int i = 0; i < nt; i++)
@@ -52,7 +52,7 @@ public class StressTest extends
 			}
 		for (int i = 0; i < nt; i++)
 			xs.submit(threads[i]);
-		xs.awaitTermination(30, TimeUnit.SECONDS);
+		xs.awaitTermination(300, TimeUnit.SECONDS);
 		xs.shutdown();
 		int errors = -1;
 		long time = 0;

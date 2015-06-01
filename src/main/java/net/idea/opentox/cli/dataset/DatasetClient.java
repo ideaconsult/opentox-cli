@@ -81,7 +81,7 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 	}
 	
 	@Override
-	protected List<Dataset> processPayload(InputStream in, String mediaType)
+	public List<Dataset> processPayload(InputStream in, String mediaType)
 			throws RestException, IOException {
 		List<Dataset> list = null;
 		if (mime_json.equals(mediaType)) {

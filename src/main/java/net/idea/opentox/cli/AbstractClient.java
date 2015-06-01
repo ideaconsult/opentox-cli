@@ -114,7 +114,7 @@ public abstract class AbstractClient<IDENTIFIER,T extends IIdentifiableResource<
 	}
 
 	
-	protected List<T>  processPayload(InputStream in, String mediaType) throws RestException, IOException {
+	public List<T>  processPayload(InputStream in, String mediaType) throws RestException, IOException {
 		throw new RestException(HttpStatus.SC_OK,"Everything's fine, but parsing content is not implemented yet "+mediaType);
 	}
 	
