@@ -7,4 +7,5 @@ public class Resources {
 	public static final String dataset = "/dataset";
 	public static final String algorithm = "/algorithm";
 	public static final String model = "/model";
+	public static final String substance = "/substance";
 }
