@@ -113,6 +113,10 @@ Search substructure c1ccccc1O
 java -jar mcli.jar -s http://localhost:8080/ambit2 -r querycompound -z 10 -p 0 -q c1ccccc1O -t smarts
 ````
 
+Retrieve substances with study summaries 
+
+[Example](https://github.com/ideaconsult/examples-ambit/blob/master/ambit-json-docs/substance_withstudysummary.md)
+
 
 
 
