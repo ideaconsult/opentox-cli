@@ -2,13 +2,13 @@ package net.idea.opentox.cli.structure;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.Resources;
+import net.idea.opentox.cli.id.Identifier;
 
 import org.apache.http.client.HttpClient;
 import org.codehaus.jackson.JsonNode;
@@ -49,7 +49,7 @@ public class SubstanceClient<POLICY_RULE> extends AbstractURIClient<Substance, P
 					if (list == null)
 						list = new ArrayList<Substance>();
 					SubstanceRecord record = parseSubstance(data.get(i));
-					Substance substance = new Substance(new URL(data.get(i).get("URI").asText()));
+					Substance substance = new Substance(new Identifier(data.get(i).get("URI").asText()));
 					substance.setRecord(record);
 					parseSubstanceStudySummary(data.get(i).get("URI").asText(), record,
 							(ArrayNode) data.get(i).get("studysummary"));
@@ -123,7 +123,7 @@ public class SubstanceClient<POLICY_RULE> extends AbstractURIClient<Substance, P
 
 	public List<Substance> getSubstancesRelatedToCompound(String base_uri, String compound_uri, boolean withStudySummary)
 			throws Exception {
-		URL url = new URL(String.format("%s%s?type=related&compound_uri=%s&studysummary=%s",
+		Identifier url = new Identifier(String.format("%s%s?type=related&compound_uri=%s&studysummary=%s",
 				base_uri, Resources.substance,URLEncoder.encode(compound_uri),withStudySummary));
 		return super.getJSON(url);
 	}

@@ -2,14 +2,14 @@ package net.idea.opentox.cli.feature;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
 import net.idea.opentox.cli.AbstractURIClient;
-import net.idea.opentox.cli.structure.Compound;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 
 import org.apache.http.client.HttpClient;
 import org.codehaus.jackson.JsonNode;
@@ -38,7 +38,7 @@ public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature, POLIC
 		JsonNode metadata = data.get(uri);
 		if (list == null)
 		    list = new ArrayList<Feature>();
-		Feature feature = new Feature(new URL(uri));
+		Feature feature = new Feature(new Identifier(uri));
 		list.add(feature);
 		try {
 		    feature.setTitle(metadata.get("title").getTextValue());
@@ -91,7 +91,7 @@ public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature, POLIC
     }
 
     @Override
-    public List<Feature> get(URL url, String mediaType, String... params) throws RestException, IOException {
+    public List<Feature> get(IIdentifier url, String mediaType, String... params) throws RestException, IOException {
 	LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/feature");
 	return super.get(url, mediaType, params);
     }

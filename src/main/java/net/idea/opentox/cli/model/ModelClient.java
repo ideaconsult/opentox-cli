@@ -3,7 +3,6 @@ package net.idea.opentox.cli.model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -12,6 +11,8 @@ import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.algorithm.Algorithm;
 import net.idea.opentox.cli.dataset.Dataset;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.task.RemoteTask;
 
 import org.apache.http.HttpEntity;
@@ -59,7 +60,7 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 		if (task.isERROR()) throw task.getError();
 		else {
 			Dataset result = new Dataset();
-			result.setResourceIdentifier(task.getResult());
+			result.setResourceIdentifier(new Identifier(task.getResult()));
 			return result;
 		}
 	}
@@ -80,7 +81,7 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> getModelByAlgorithmDataset(URL url,Algorithm algorithm, Dataset dataset) throws  RestException, IOException {
+	public List<IIdentifier> getModelByAlgorithmDataset(Identifier url,Algorithm algorithm, Dataset dataset) throws  RestException, IOException {
 		return listURI(url, getModelByAlgorithmDataset(algorithm,dataset));
 	}
 	/**
@@ -115,17 +116,17 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode metadata = data.get(i);
-				 Model model = new Model(new URL(metadata.get("URI").getTextValue()));
+				 Model model = new Model(new Identifier(metadata.get("URI").getTextValue()));
 				 if (list==null) list = new ArrayList<Model>();
 				 list.add(model);
 
 				 try {model.setTitle(metadata.get("title").getTextValue());} catch (Exception x) {}
 				 try {
-					 Dataset dataset = new Dataset(new URL(metadata.get("trainingDataset").getTextValue()));
+					 Dataset dataset = new Dataset(new Identifier(metadata.get("trainingDataset").getTextValue()));
 					 model.setTrainingDataset(dataset);
 				 } catch (Exception x) {model.setTrainingDataset(null);}
 				 try {
-					 Algorithm algorithm = new Algorithm(new URL(metadata.get("algorithm").get("URI").getTextValue()));
+					 Algorithm algorithm = new Algorithm(new Identifier(metadata.get("algorithm").get("URI").getTextValue()));
 					 model.setAlgorithm(algorithm);
 				 } catch (Exception x) {model.setAlgorithm(null);}
 			 }
@@ -140,7 +141,7 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 	}
 	
 	@Override
-	public List<Model> get(URL url, String mediaType, String... params)
+	public List<Model> get(IIdentifier url, String mediaType, String... params)
 			throws RestException, IOException {
 		LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/model");
 		return super.get(url, mediaType, params);

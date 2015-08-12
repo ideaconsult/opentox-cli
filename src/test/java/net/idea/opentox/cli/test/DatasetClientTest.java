@@ -11,6 +11,8 @@ import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.dataset.InputData;
 import net.idea.opentox.cli.dataset.Rights;
 import net.idea.opentox.cli.dataset.Rights._type;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.task.RemoteTask;
@@ -34,14 +36,14 @@ public class DatasetClientTest<POLICY_RULE> extends AbstractClientTest<Dataset,P
 	@Override
 	public void testList() throws Exception {
 		DatasetClient<POLICY_RULE> otClient = getOTClient();
-		List<URL> uri = otClient.listURI(new URL(String.format("%s%s", TEST_SERVER,Resources.dataset)));
+		List<IIdentifier> uri = otClient.listURI(new Identifier(String.format("%s%s", TEST_SERVER,Resources.dataset)));
 		Assert.assertTrue(uri.size()>0);
 	}
 	
 	@Test
 	public void testGetDatasetList() throws Exception {
 		DatasetClient<POLICY_RULE> otClient = getOTClient();
-		List<Dataset> datasets = otClient.getJSON(new URL(String.format("%s%s", TEST_SERVER,Resources.dataset)));
+		List<Dataset> datasets = otClient.getJSON(new Identifier(String.format("%s%s", TEST_SERVER,Resources.dataset)));
 		Assert.assertNotNull(datasets);
 		Assert.assertTrue(datasets.size()>0);
 		for (Dataset dataset:datasets) {
@@ -52,7 +54,7 @@ public class DatasetClientTest<POLICY_RULE> extends AbstractClientTest<Dataset,P
 	@Override
 	public void testRead() throws Exception {
 		DatasetClient<POLICY_RULE> otClient = getOTClient();
-		List<Dataset> dataset = otClient.getJSON(new URL(String.format("%s%s/1/metadata", TEST_SERVER,Resources.dataset)));
+		List<Dataset> dataset = otClient.getJSON(new Identifier(String.format("%s%s/1/metadata", TEST_SERVER,Resources.dataset)));
 		Assert.assertEquals(1,dataset.size());
 	}
 	
@@ -70,7 +72,7 @@ public class DatasetClientTest<POLICY_RULE> extends AbstractClientTest<Dataset,P
 		dataset.getMetadata().setSeeAlso("Test see also uri");
 		dataset.getMetadata().setRights(new Rights("CC-BY-SA","http://creativecommons.org/licenses/by-sa/2.0/",_type.license));
 		dataset.setInputData(new InputData(fileToImport,DatasetClient._MATCH.InChI));
-		RemoteTask task = cli.postAsync(dataset,new URL(String.format("%s%s", TEST_SERVER,Resources.dataset)));
+		RemoteTask task = cli.postAsync(dataset,new Identifier(String.format("%s%s", TEST_SERVER,Resources.dataset)));
 		task.waitUntilCompleted(1000);
 		//verify if ok
 		Assert.assertEquals(HttpStatus.SC_OK,task.getStatus());

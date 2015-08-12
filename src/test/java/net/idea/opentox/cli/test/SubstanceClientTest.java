@@ -24,7 +24,9 @@ public class SubstanceClientTest<POLICY_RULE> extends AbstractClientTest<Substan
 		//get the first record
 		//URL url = new URL(String.format("%s%s?page=3&pagesize=1&studysummary=true", TEST_SERVER,Resources.substance));
 		String compound_uri = String.format("%s/compound/2", TEST_SERVER);
-		List<Substance> substances = otClient.getSubstancesRelatedToCompound(TEST_SERVER, compound_uri, true);		
+		List<Substance> substances = otClient.getSubstancesRelatedToCompound(TEST_SERVER, compound_uri, true);
+		
+		Assert.assertNotNull(substances);
 		Assert.assertTrue(substances.size()>0);
 
 		Assert.assertNotNull(substances.get(0).getResourceIdentifier());

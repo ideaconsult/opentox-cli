@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.task.RemoteTask;
 import net.idea.opentox.main.IJSONCallBack;
 
@@ -35,7 +37,7 @@ import org.opentox.rest.RestException;
  *
  * @param <T>
  */
-public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE> extends AbstractClient<URL,T> {
+public class AbstractURIClient<T extends IIdentifiableResource<IIdentifier>,POLICY_RULE> extends AbstractClient<IIdentifier,T> {
 	protected IJSONCallBack callback = null;
 	public IJSONCallBack getCallback() {
 		return callback;
@@ -62,12 +64,12 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @throws Exception
 	 */
 	
-	public List<T> getRDF_XML(URL url) throws Exception {
+	public List<T> getRDF_XML(IIdentifier url) throws Exception {
 		return get(url,mime_rdfxml);
 	}
 	
 	
-	public List<T> getJSON(URL url) throws Exception {
+	public List<T> getJSON(IIdentifier url) throws Exception {
 		return get(url,mime_json);
 	}
 	/**
@@ -77,7 +79,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return
 	 * @throws Exception
 	 */
-	public List<T> searchRDF_XML(URL url,String query) throws Exception {
+	public List<T> searchRDF_XML(IIdentifier url,String query) throws Exception {
 		return get(url,mime_rdfxml,query==null?null:new String[] {search_param,query});
 	}	
 	/**
@@ -86,7 +88,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<T> getRDF_N3(URL url) throws Exception {
+	protected List<T> getRDF_N3(IIdentifier url) throws Exception {
 		return get(url,mime_n3);
 	}	
 	/**
@@ -96,7 +98,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<T> searchRDF_N3(URL url,String query) throws Exception {
+	protected List<T> searchRDF_N3(IIdentifier url,String query) throws Exception {
 		return get(url,mime_n3,query==null?null:new String[] {search_param,query});
 	}		
 
@@ -109,7 +111,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<T> get(URL url,String mediaType,String... params) throws RestException, IOException {
+	public List<T> get(IIdentifier url,String mediaType,String... params) throws RestException, IOException {
 		String address = prepareParams(url, params);
 		HttpGet httpGet = new HttpGet(address);
 		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
@@ -130,7 +132,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 				try {
 					return processPayload(in,mediaType);
 				} catch (RestException x) {
-					throw new RestException(x.getStatus(), String.format("Error retrieving",url),x);
+					throw new RestException(x.getStatus(), String.format("Error retrieving %s",url),x);
 				} catch (Exception x) {
 					throw new IOException(String.format("Error retrieving",url),x);
 				}
@@ -155,7 +157,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> listURI(URL url) throws  RestException, IOException {
+	public List<IIdentifier> listURI(IIdentifier url) throws  RestException, IOException {
 		return listURI(url,(String[])null);
 	}
 	/**
@@ -166,7 +168,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> searchURI(URL url,String query) throws  RestException, IOException {
+	public List<IIdentifier> searchURI(IIdentifier url,String query) throws  RestException, IOException {
 		return listURI(url, new String[] {search_param,query});
 	}
 	/**
@@ -177,7 +179,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> listURI(URL url,String... params) throws  RestException, IOException {
+	public List<IIdentifier> listURI(IIdentifier url,String... params) throws  RestException, IOException {
 		HttpGet httpGet = new HttpGet(prepareParams(url, params));
 		if (headers!=null) for (Header header : headers) httpGet.addHeader(header);
 		httpGet.addHeader("Accept","text/uri-list");
@@ -206,12 +208,12 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @throws IOException
 	 * @throws MalformedURLException
 	 */
-	private List<URL> readURI(InputStream in) throws IOException, MalformedURLException {
-		List<URL> uris = new ArrayList<URL>();
+	private List<IIdentifier> readURI(InputStream in) throws IOException, MalformedURLException {
+		List<IIdentifier> uris = new ArrayList<IIdentifier>();
 		BufferedReader r = new BufferedReader(new InputStreamReader(in));
 		String line = null;
 		while ((line = r.readLine())!= null) {
-			uris.add(new URL(line));
+			uris.add(new Identifier(line));
 		}
 		return uris;
 	}	
@@ -235,7 +237,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return  Returns {@link RemoteTask}
 	 * @throws Exception if not allowed, or other error condition
 	 */	
-	public RemoteTask postAsync(T object, URL collection, List<POLICY_RULE> accessRights) throws Exception {
+	public RemoteTask postAsync(T object, IIdentifier collection, List<POLICY_RULE> accessRights) throws Exception {
 		return sendAsync(collection, createPOSTEntity(object,accessRights), HttpPost.METHOD_NAME);
 	}
 	/**
@@ -245,7 +247,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return
 	 * @throws Exception
 	 */
-	public RemoteTask postAsync(T object, URL collection) throws Exception {
+	public RemoteTask postAsync(T object, IIdentifier collection) throws Exception {
 		return postAsync(object, collection, null);
 	}
 	/**
@@ -280,11 +282,11 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return {@link RemoteTask}
 	 * @throws Exception
 	 */
-	protected RemoteTask deleteAsync(URL url) throws Exception {
+	protected RemoteTask deleteAsync(IIdentifier url) throws Exception {
 		return sendAsync(url,null, HttpDelete.METHOD_NAME);
 	}	
-	protected RemoteTask sendAsync(URL target, HttpEntity entity, String method) throws Exception {
-		return new RemoteTask(getHttpClient(),target, "text/uri-list", entity, method);
+	protected RemoteTask sendAsync(IIdentifier target, HttpEntity entity, String method) throws Exception {
+		return new RemoteTask(getHttpClient(),new URL(target.toString()), "text/uri-list", entity, method);
 	}	
 
 	/**
@@ -313,11 +315,11 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return
 	 * @throws Exception in case of error.
 	 */
-	public T post(T object, URL collection, List<POLICY_RULE> accessRights) throws Exception {
+	public T post(T object, IIdentifier collection, List<POLICY_RULE> accessRights) throws Exception {
 		RemoteTask task = postAsync(object, collection,accessRights);
 		task.waitUntilCompleted(500);	
 		if (task.isERROR()) throw task.getError();
-		else object.setResourceIdentifier(task.getResult());
+		else object.setResourceIdentifier(new Identifier(task.getResult()));
 		return object;
 	}
 	/**
@@ -327,7 +329,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @return
 	 * @throws Exception
 	 */
-	public T post(T object, URL collection) throws Exception {
+	public T post(T object, IIdentifier collection) throws Exception {
 		return post(object,collection,null);
 	}
 	/**
@@ -342,7 +344,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 		RemoteTask task = putAsync(object,accessRights);
 		task.waitUntilCompleted(500);	
 		if (task.isERROR()) throw task.getError();
-		else object.setResourceIdentifier(task.getResult());
+		else object.setResourceIdentifier(new Identifier(task.getResult()));
 		return object;
 	}	
 	
@@ -351,7 +353,7 @@ public class AbstractURIClient<T extends IIdentifiableResource<URL>,POLICY_RULE>
 	 * @param url
 	 * @throws Exception
 	 */
-	public void delete(URL url) throws Exception {
+	public void delete(IIdentifier url) throws Exception {
 		RemoteTask task = deleteAsync(url);
 		task.waitUntilCompleted(500);
 		if (task.isERROR()) throw task.getError();

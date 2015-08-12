@@ -2,11 +2,11 @@ package net.idea.opentox.cli.user;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.id.Identifier;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -63,7 +63,7 @@ public class UserClient<POLICY_RULE> extends AbstractURIClient<User, POLICY_RULE
 		if (list == null)
 		    list = new ArrayList<User>();
 		User user = new User();
-		user.setResourceIdentifier(new URL(data.get(i).get("uri").getTextValue()));
+		user.setResourceIdentifier(new Identifier(data.get(i).get("uri").getTextValue()));
 		try {
 		    user.setTitle(data.get(i).get("title").getTextValue());
 		} catch (Exception x) {

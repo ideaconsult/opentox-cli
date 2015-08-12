@@ -2,11 +2,11 @@ package net.idea.opentox.cli.group;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.id.Identifier;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -46,7 +46,7 @@ public class GroupClient<POLICY_RULE> extends AbstractURIClient<Group, POLICY_RU
 		if (list == null)
 		    list = new ArrayList<Group>();
 		Group group = new Group();
-		group.setResourceIdentifier(new URL(data.get(i).get("uri").getTextValue()));
+		group.setResourceIdentifier(new Identifier(data.get(i).get("uri").getTextValue()));
 		try {
 		    group.setTitle(data.get(i).get("title").getTextValue());
 		} catch (Exception x) {

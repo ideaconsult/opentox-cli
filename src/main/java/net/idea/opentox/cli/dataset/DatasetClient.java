@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.dataset.Rights._type;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
 
@@ -92,7 +94,7 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode metadata = data.get(i);
-				 Dataset dataset = new Dataset(new URL(metadata.get("URI").getTextValue()));
+				 Dataset dataset = new Dataset(new Identifier(metadata.get("URI").getTextValue()));
 				 if (list==null) list = new ArrayList<Dataset>();
 				 list.add(dataset);
 				 try {dataset.getMetadata().setTitle(metadata.get("title").getTextValue());} catch (Exception x) {}
@@ -155,7 +157,7 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 	 * @throws Exception
 	 */
 	public List<Dataset> getMetadata(Dataset dataset) throws Exception {
-		return get(new URL(String.format("%s/metadata", dataset.getResourceIdentifier())),mime_json);
+		return get(new Identifier(String.format("%s/metadata", dataset.getResourceIdentifier())),mime_json);
 	}
 	/**
 	 * Retrieves the dataset metadata, given dataset URI
@@ -164,7 +166,7 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 	 * @throws Exception
 	 */
 	public List<Dataset> getMetadata(String datasetURI) throws Exception {
-		return get(new URL(String.format("%s/metadata", datasetURI)),mime_json);
+		return get(new Identifier(String.format("%s/metadata", datasetURI)),mime_json);
 	}	
 	/**
 	 * Retrieves the dataset metadata, given dataset URI
@@ -173,7 +175,7 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 	 * @throws Exception
 	 */
 	public List<Dataset> getMetadata(URL datasetURI) throws Exception {
-		return get(new URL(String.format("%s/metadata", datasetURI)),mime_json);
+		return get(new Identifier(String.format("%s/metadata", datasetURI)),mime_json);
 	}
 	/**
 	 * Retrieves dataset compounds
@@ -186,7 +188,7 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 		return cli.getJSON(dataset.getResourceIdentifier());
 	}
 	@Override
-	public List<Dataset> get(URL url, String mediaType, String... params)
+	public List<Dataset> get(IIdentifier url, String mediaType, String... params)
 			throws RestException, IOException {
 		LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/dataset");
 		return super.get(url, mediaType, params);

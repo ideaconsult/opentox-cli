@@ -1,13 +1,12 @@
 package net.idea.opentox.cli.test;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.net.URL;
 import java.util.List;
 
 import junit.framework.Assert;
 import net.idea.opentox.cli.Resources;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.structure.CompoundClient.QueryType;
@@ -15,10 +14,6 @@ import net.idea.opentox.cli.task.RemoteTask;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
-import org.openscience.cdk.interfaces.IMolecule;
-
-import ambit2.core.io.DelimitedFileWriter;
-import ambit2.core.io.IteratingDelimitedFileReader;
 
 public class CompoundClientTest<POLICY_RULE> extends
 		AbstractClientTest<Compound, POLICY_RULE, CompoundClient<POLICY_RULE>> {
@@ -124,7 +119,7 @@ public class CompoundClientTest<POLICY_RULE> extends
 	public void testUpdate() throws Exception {
 		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		Compound substance = new Compound();
-		substance.setResourceIdentifier(new URL(String.format("%s%s/%d%s/%d", TEST_SERVER, Resources.compound, 1,
+		substance.setResourceIdentifier(new Identifier(String.format("%s%s/%d%s/%d", TEST_SERVER, Resources.compound, 1,
 				Resources.conformer, 1)));
 		// POST
 		RemoteTask task = otClient.setSubstancePropertyAsync(new URL(TEST_SERVER), substance, "TEST_ID", "12345");
@@ -179,7 +174,7 @@ public class CompoundClientTest<POLICY_RULE> extends
 	public void testRead() throws Exception {
 		CompoundClient<POLICY_RULE> otClient = getOTClient();
 		//get the first record
-		List<URL> uri = otClient.listURI(new URL(String.format("%s%s/1", TEST_SERVER,Resources.compound)),
+		List<IIdentifier> uri = otClient.listURI(new Identifier(String.format("%s%s/1", TEST_SERVER,Resources.compound)),
 				new String[] {"page","0","pagesize","1"});		
 		//verify one record is retrieved
 		Assert.assertEquals(1,uri.size());
@@ -197,7 +192,7 @@ public class CompoundClientTest<POLICY_RULE> extends
 	@Override
 	public void testList() throws Exception {
 		CompoundClient<POLICY_RULE> otClient = getOTClient();
-		List<URL> uri = otClient.listURI(new URL(String.format("%s%s/1", TEST_SERVER,Resources.compound)));
+		List<IIdentifier> uri = otClient.listURI(new Identifier(String.format("%s%s/1", TEST_SERVER,Resources.compound)));
 		System.out.println(uri);
 		Assert.assertTrue(uri.size()>0);
 	}

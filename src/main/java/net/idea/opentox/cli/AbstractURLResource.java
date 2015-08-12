@@ -1,9 +1,10 @@
 package net.idea.opentox.cli;
 
 import java.io.Serializable;
-import java.net.URL;
 
-public class AbstractURLResource extends AbstractIdentifiableResource<URL> implements  Serializable {
+import net.idea.opentox.cli.id.IIdentifier;
+
+public class AbstractURLResource extends AbstractIdentifiableResource<IIdentifier> implements  Serializable {
 
 	/**
 	 * 
@@ -12,7 +13,7 @@ public class AbstractURLResource extends AbstractIdentifiableResource<URL> imple
 	public AbstractURLResource() {
 		this(null);
 	}
-	public AbstractURLResource(URL identifier) {
+	public AbstractURLResource(IIdentifier identifier) {
 		setResourceIdentifier(identifier);
 	}
 	@Override

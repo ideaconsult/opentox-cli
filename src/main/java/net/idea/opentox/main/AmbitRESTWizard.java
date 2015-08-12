@@ -20,6 +20,7 @@ import net.idea.opentox.cli.dataset.Dataset;
 import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.feature.Feature;
 import net.idea.opentox.cli.feature.FeatureClient;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.model.Model;
 import net.idea.opentox.cli.model.ModelClient;
 import net.idea.opentox.cli.structure.Compound;
@@ -102,20 +103,20 @@ public class AmbitRESTWizard implements IJSONCallBack {
 	protected File file;
 	protected File resultFile;
 	
-	protected URL compound_uri;
-	public URL getCompound_uri() {
+	protected Identifier compound_uri;
+	public Identifier getCompound_uri() {
 		return compound_uri;
 	}
-	public void setCompound_uri(URL compound_uri) {
+	public void setCompound_uri(Identifier compound_uri) {
 		this.compound_uri = compound_uri;
 	}
-	public URL getModel_uri() {
+	public Identifier getModel_uri() {
 		return model_uri;
 	}
-	public void setModel_uri(URL model_uri) {
+	public void setModel_uri(Identifier model_uri) {
 		this.model_uri = model_uri;
 	}
-	protected URL model_uri;
+	protected Identifier model_uri;
 
 	protected URL base_uri;
 	
@@ -224,13 +225,13 @@ public class AmbitRESTWizard implements IJSONCallBack {
 		case compound_uri : {
 			setCompound_uri(null);
 			if ((argument==null) || "".equals(argument.trim())) return;
-			setCompound_uri(new URL(argument.trim()));
+			setCompound_uri(new Identifier(argument.trim()));
 			break;			
 		}			
 		case model_uri : {
 			setModel_uri(null);
 			if ((argument==null) || "".equals(argument.trim())) return;
-			setModel_uri(new URL(argument.trim()));
+			setModel_uri(new Identifier(argument.trim()));
 			break;			
 		}			
 		default:
@@ -287,7 +288,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 				bucket.headerToCSV(writer,",");writer.write('\n');
 				FeatureClient cli = otclient.getFeatureClient();
 				cli.setCallback(this);
-				URL url = new URL(String.format("%s/feature", getBase_uri().toExternalForm()));
+				Identifier url = new Identifier(String.format("%s/feature", getBase_uri().toExternalForm()));
 				List<Feature> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				for (Feature feature:  list) {
 					bucket.clear();
@@ -303,7 +304,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 				fcli.setCallback(this);
 				DatasetClient cli = otclient.getDatasetClient();
 				cli.setCallback(this);
-				URL url = new URL(String.format("%s/dataset", getBase_uri().toExternalForm()));
+				Identifier url = new Identifier(String.format("%s/dataset", getBase_uri().toExternalForm()));
 				List<Dataset> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				Bucket bucket = new Bucket();
 				String[][] h = new String[][]{datasetHeader,featureHeader};
@@ -314,7 +315,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 					bucket.clear();
 					sink(dataset, bucket);
 
-					URL furl = new URL(String.format("%s/feature", dataset.getResourceIdentifier().toExternalForm()));
+					Identifier furl = new Identifier(String.format("%s/feature", dataset.getResourceIdentifier().toExternalForm()));
 					List<Feature> flist = fcli.get(furl,"application/json");
 					for (Feature feature:  flist) {
 						sink(feature, bucket);
@@ -330,7 +331,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 				fcli.setCallback(this);
 				ModelClient cli = otclient.getModelClient();
 				cli.setCallback(this);
-				URL url = new URL(String.format("%s/model", getBase_uri().toExternalForm()));
+				Identifier url = new Identifier(String.format("%s/model", getBase_uri().toExternalForm()));
 				List<Model> list = cli.get(url,"application/json","page",Integer.toString(getPage()),"pagesize",Integer.toString(getPagesize()));
 				Bucket bucket = new Bucket();
 				String[][] h = new String[][]{modelHeader,featureHeader};
@@ -339,7 +340,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 				for (Model model : list) {
 					bucket.clear();
 					sink(model, bucket);
-					URL furl = new URL(String.format("%s/predicted", model.getResourceIdentifier().toExternalForm()));
+					Identifier furl = new Identifier(String.format("%s/predicted", model.getResourceIdentifier().toExternalForm()));
 					List<Feature> flist = fcli.get(furl,"application/json");
 					for (Feature feature:  flist) {
 						sink(feature, bucket);

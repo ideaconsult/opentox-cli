@@ -1,10 +1,9 @@
 package net.idea.opentox.cli.model;
 
-import java.net.URL;
-
 import net.idea.opentox.cli.AbstractURLResource;
 import net.idea.opentox.cli.algorithm.Algorithm;
 import net.idea.opentox.cli.dataset.Dataset;
+import net.idea.opentox.cli.id.IIdentifier;
 
 public class Model extends AbstractURLResource {
 	/**
@@ -27,7 +26,7 @@ public class Model extends AbstractURLResource {
 		this(null);
 	}
 	
-	public Model(URL url) {
+	public Model(IIdentifier url) {
 		super(url);
 	}
 

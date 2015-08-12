@@ -2,13 +2,14 @@ package net.idea.opentox.cli.algorithm;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.dataset.Dataset;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.model.Model;
 import net.idea.opentox.cli.task.RemoteTask;
 
@@ -57,7 +58,7 @@ public class AlgorithmClient<POLICY_RULE> extends AbstractURIClient<Algorithm ,P
 			Model model = new Model();
 			model.setAlgorithm(algorithm);
 			model.setTrainingDataset(dataset);
-			model.setResourceIdentifier(task.getResult());
+			model.setResourceIdentifier(new Identifier(task.getResult()));
 			return model;
 		}
 	}
@@ -69,7 +70,7 @@ public class AlgorithmClient<POLICY_RULE> extends AbstractURIClient<Algorithm ,P
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> getAlgorithmByType(URL url,String query) throws  RestException, IOException {
+	public List<IIdentifier> getAlgorithmByType(Identifier url,String query) throws  RestException, IOException {
 		return listURI(url, getAlgorithmByTypeQuery(query));
 	}
 	protected String[] getAlgorithmByTypeQuery(String value) {

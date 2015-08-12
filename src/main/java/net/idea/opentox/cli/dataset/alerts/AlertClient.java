@@ -2,11 +2,12 @@ package net.idea.opentox.cli.dataset.alerts;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -34,7 +35,7 @@ public class AlertClient<POLICY_RULE> extends AbstractURIClient<Alert, POLICY_RU
 		if (list == null)
 		    list = new ArrayList<Alert>();
 		Alert alert = new Alert();
-		alert.setResourceIdentifier(new URL(data.get(i).get("uri").getTextValue()));
+		alert.setResourceIdentifier(new Identifier(data.get(i).get("uri").getTextValue()));
 		list.add(alert);
 		//TODO
 
@@ -44,7 +45,7 @@ public class AlertClient<POLICY_RULE> extends AbstractURIClient<Alert, POLICY_RU
     }
 
     @Override
-    public List<Alert> get(URL url, String mediaType, String... params) throws RestException, IOException {
+    public List<Alert> get(IIdentifier url, String mediaType, String... params) throws RestException, IOException {
 	return super.get(url, mediaType, params);
     }
 }

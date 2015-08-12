@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.id.Identifier;
 
 import org.apache.http.client.HttpClient;
 import org.codehaus.jackson.JsonNode;
@@ -62,7 +62,7 @@ public class QMRFDocumentClient<POLICY_RULE> extends AbstractURIClient<QMRFDocum
 	    if (data != null)
 		for (int i = 0; i < data.size(); i++) {
 		    JsonNode docNode = data.get(i).get("uri");
-		    QMRFDocument document = new QMRFDocument(new URL(docNode.getTextValue()));
+		    QMRFDocument document = new QMRFDocument(new Identifier(docNode.getTextValue()));
 		    try {
 			document.setTitle(docNode.get("title").getTextValue());
 		    } catch (Exception x) {
@@ -92,7 +92,7 @@ public class QMRFDocumentClient<POLICY_RULE> extends AbstractURIClient<QMRFDocum
 	    while ((line = r.readLine()) != null) {
 		if (list == null)
 		    list = new ArrayList<QMRFDocument>();
-		QMRFDocument c = new QMRFDocument(new URL(line.trim()));
+		QMRFDocument c = new QMRFDocument(new Identifier(line.trim()));
 		list.add(c);
 
 	    }

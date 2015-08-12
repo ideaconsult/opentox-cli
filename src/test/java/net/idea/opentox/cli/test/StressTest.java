@@ -1,6 +1,5 @@
 package net.idea.opentox.cli.test;
 
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,6 +9,7 @@ import java.util.logging.Logger;
 
 import junit.framework.Assert;
 import net.idea.opentox.cli.OTClient;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.qmrf.QMRFDocumentClient;
 import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
@@ -40,13 +40,14 @@ public class StressTest extends
 		for (int i = 0; i < nt; i++)
 			try {
 				threads[i] = new MyThread(String.format("thread-%d", i), 10000,
-						new OTClient(), new URL(
+						new OTClient(), new Identifier(
 						// "http://localhost:8080/ambit2/substance?type=like&search=*acid*"));
 						// "http://localhost:8080/ambit2/query/similarity?search=c1cccc1"));
 						// "http://localhost:8080/ambit2/bundle/29/substance"));
 						// "http://localhost:8080/ambit2/bundle/29/dataset"));
 						// "http://localhost:8080/ambit2/dataset/1?max=40"
-								"http://localhost:8081/qmrf/protocol?max=40"));
+								//"http://localhost:8081/qmrf/protocol?max=40"
+								"http://localhost:8081/qmrf/dataset/A593"));
 			} catch (Exception x) {
 				logger.log(Level.SEVERE, "loop", x);
 			}
@@ -78,7 +79,7 @@ public class StressTest extends
 	class MyThread extends Thread {
 		public long sleep;
 		public long time;
-		public URL dataset;
+		public Identifier dataset;
 		public OTClient client;
 		public Exception error = null;
 
@@ -93,7 +94,7 @@ public class StressTest extends
 			return count;
 		}
 
-		public MyThread(String name, long sleep, OTClient client, URL url) {
+		public MyThread(String name, long sleep, OTClient client, Identifier url) {
 			super(name);
 			threadLogger = Logger.getLogger(name);
 			this.sleep = sleep;
@@ -109,7 +110,7 @@ public class StressTest extends
 			try {
 				// cli = client.getSubstanceClient();
 				cli = client.getQMRFDocumentClient();
-				List list = cli.getJSON(dataset);
+				List list = cli.get(dataset,"text/uri-list");
 				if (list == null || list.isEmpty()) {
 					error = new Exception("Empty list");
 					//threadLogger.log(Level.WARNING, "Empty list");

@@ -1,8 +1,7 @@
 package net.idea.opentox.cli.algorithm;
 
-import java.net.URL;
-
 import net.idea.opentox.cli.AbstractURLResource;
+import net.idea.opentox.cli.id.IIdentifier;
 
 
 public class Algorithm extends AbstractURLResource {
@@ -16,7 +15,7 @@ public class Algorithm extends AbstractURLResource {
 		super(null);
 	}
 	
-	public Algorithm(URL url) {
+	public Algorithm(IIdentifier url) {
 		super(url);
 	}
 

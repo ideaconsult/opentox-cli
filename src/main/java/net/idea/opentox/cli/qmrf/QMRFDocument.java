@@ -1,8 +1,7 @@
 package net.idea.opentox.cli.qmrf;
 
-import java.net.URL;
-
 import net.idea.opentox.cli.AbstractURLResource;
+import net.idea.opentox.cli.id.IIdentifier;
 
 public class QMRFDocument extends AbstractURLResource {
 
@@ -76,7 +75,7 @@ public class QMRFDocument extends AbstractURLResource {
 		super(null);
 	}
 
-	public QMRFDocument(URL url) {
+	public QMRFDocument(IIdentifier url) {
 		super(url);
 	}
 

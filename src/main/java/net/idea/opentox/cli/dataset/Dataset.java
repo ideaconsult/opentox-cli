@@ -1,8 +1,7 @@
 package net.idea.opentox.cli.dataset;
 
-import java.net.URL;
-
 import net.idea.opentox.cli.AbstractURLResource;
+import net.idea.opentox.cli.id.IIdentifier;
 
 public class Dataset extends AbstractURLResource {
 	protected InputData inputData = null;
@@ -31,7 +30,7 @@ public class Dataset extends AbstractURLResource {
 		super(null);
 	}
 	
-	public Dataset(URL url) {
+	public Dataset(IIdentifier url) {
 		super(url);
 	}
 

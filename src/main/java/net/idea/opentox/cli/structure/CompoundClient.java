@@ -15,6 +15,8 @@ import java.util.logging.Level;
 
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.task.RemoteTask;
 
 import org.apache.commons.codec.binary.Base64;
@@ -52,7 +54,7 @@ public class CompoundClient<POLICY_RULE> extends
 		super(httpclient);
 	}
 
-	public List<URL> searchExactStructuresURI(URL queryService, String term)
+	public List<IIdentifier> searchExactStructuresURI(URL queryService, String term)
 			throws RestException, IOException {
 		return searchExactStructuresURI(queryService, term, QueryType.smiles,
 				false);
@@ -69,23 +71,23 @@ public class CompoundClient<POLICY_RULE> extends
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> searchExactStructuresURI(URL queryService, String term,
+	public List<IIdentifier> searchExactStructuresURI(URL queryService, String term,
 			QueryType qtype, boolean b64) throws RestException, IOException {
-		URL ref = new URL(String.format(
+		Identifier ref = new Identifier(String.format(
 				"%s/query/compound/search/all?type=%s&page=0&pagesize=10",
 				queryService, qtype.name()));
 		return searchURI(ref, term, b64);
 	}
 
-	public List<URL> searchSucturesByInchikeyURI(URL queryService, String term)
+	public List<IIdentifier> searchSucturesByInchikeyURI(URL queryService, String term)
 			throws RestException, IOException {
-		URL ref = new URL(String.format(
+		Identifier ref = new Identifier(String.format(
 				"%s/query/compound/inchikey/all?page=0&pagesize=10",
 				queryService));
 		return searchURI(ref, term, false);
 	}
 
-	public List<URL> searchSimilarStructuresURI(URL queryService, String term,
+	public List<IIdentifier> searchSimilarStructuresURI(URL queryService, String term,
 			double threshold) throws RestException, IOException {
 		return searchSimilarStructuresURI(queryService, term, QueryType.smiles,
 				false, threshold);
@@ -102,10 +104,10 @@ public class CompoundClient<POLICY_RULE> extends
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> searchSimilarStructuresURI(URL queryService, String term,
+	public List<IIdentifier> searchSimilarStructuresURI(URL queryService, String term,
 			QueryType qtype, boolean b64, double threshold)
 			throws RestException, IOException {
-		URL url = new URL(
+		Identifier url = new Identifier(
 				String.format(
 						"%s/query/similarity?type=%s&page=0&pagesize=10&threshold=%3.2f",
 						queryService, qtype.name(), threshold));
@@ -123,21 +125,21 @@ public class CompoundClient<POLICY_RULE> extends
 	 * @throws RestException
 	 * @throws IOException
 	 */
-	public List<URL> searchSubstructuresURI(URL queryService, String term,
+	public List<IIdentifier> searchSubstructuresURI(URL queryService, String term,
 			QueryType qtype, boolean b64) throws RestException, IOException {
-		URL ref = new URL(String.format(
+		Identifier ref = new Identifier(String.format(
 				"%s/query/smarts?type=%s&page=0&pagesize=10", queryService,
 				qtype.name()));
 		return searchURI(ref, term, b64);
 	}
 
-	public List<URL> searchSubstructuresURI(URL queryService, String term)
+	public List<IIdentifier> searchSubstructuresURI(URL queryService, String term)
 			throws RestException, IOException {
 		return searchSubstructuresURI(queryService, term, QueryType.smiles,
 				false);
 	}
 
-	public List<URL> searchURI(URL url, String term, boolean b64)
+	public List<IIdentifier> searchURI(Identifier url, String term, boolean b64)
 			throws RestException, IOException {
 		if (b64)
 			return listURI(
@@ -160,14 +162,14 @@ public class CompoundClient<POLICY_RULE> extends
 	 */
 	public List<Compound> getIdentifiers(URL queryService, URL compound)
 			throws Exception {
-		URL ref = new URL(String.format("%s/query/compound/url/all?search=%s",
+		Identifier ref = new Identifier(String.format("%s/query/compound/url/all?search=%s",
 				queryService, URLEncoder.encode(compound.toExternalForm())));
 		return get(ref, mime_json);
 	}
 
 	public List<Compound> getIdentifiersAndLinks(URL queryService, URL compound)
 			throws Exception {
-		URL ref = new URL(String.format(
+		Identifier ref = new Identifier(String.format(
 				"%s/query/compound/url/allnlinks?search=%s", queryService,
 				URLEncoder.encode(compound.toExternalForm())));
 		return get(ref, mime_json);
@@ -187,7 +189,7 @@ public class CompoundClient<POLICY_RULE> extends
 			if (data != null)
 				for (int i = 0; i < data.size(); i++) {
 					JsonNode compound = data.get(i).get("compound");
-					Compound substance = new Compound(new URL(compound.get(
+					Compound substance = new Compound(new Identifier(compound.get(
 							"URI").getTextValue()));
 					try {
 						substance
@@ -289,7 +291,7 @@ public class CompoundClient<POLICY_RULE> extends
 			while ((line = r.readLine()) != null) {
 				if (list == null)
 					list = new ArrayList<Compound>();
-				Compound c = new Compound(new URL(line.trim()));
+				Compound c = new Compound(new Identifier(line.trim()));
 				list.add(c);
 				
 			}
@@ -312,7 +314,7 @@ public class CompoundClient<POLICY_RULE> extends
 	public RemoteTask registerSubstanceAsync(URL serviceRoot,
 			Compound substance, String customidName, String customidValue)
 			throws InvalidInputException, Exception {
-		URL ref = new URL(String.format("%s/compound", serviceRoot));
+		Identifier ref = new Identifier(String.format("%s/compound", serviceRoot));
 		return sendAsync(ref,
 				createFormEntity(substance, customidName, customidValue),
 				HttpPost.METHOD_NAME);
@@ -323,7 +325,7 @@ public class CompoundClient<POLICY_RULE> extends
 			throws InvalidInputException, Exception {
 		if (substance.getResourceIdentifier() == null)
 			throw new InvalidInputException("No compound URI");
-		URL ref = new URL(String.format("%s/compound", serviceRoot));
+		Identifier ref = new Identifier(String.format("%s/compound", serviceRoot));
 		return sendAsync(ref,
 				createFormEntity(substance, customidName, customidValue),
 				HttpPut.METHOD_NAME);
@@ -364,7 +366,7 @@ public class CompoundClient<POLICY_RULE> extends
 	}
 
 	@Override
-	public List<Compound> get(URL url, String mediaType, String... params)
+	public List<Compound> get(IIdentifier url, String mediaType, String... params)
 			throws RestException, IOException {
 		LOGGER.log(
 				Level.INFO,

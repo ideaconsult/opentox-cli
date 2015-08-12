@@ -1,8 +1,7 @@
 package net.idea.opentox.cli.feature;
 
-import java.net.URL;
-
 import net.idea.opentox.cli.AbstractURLResource;
+import net.idea.opentox.cli.id.IIdentifier;
 
 public class Feature  extends AbstractURLResource {
 
@@ -14,7 +13,7 @@ public class Feature  extends AbstractURLResource {
 		super(null);
 	}
 	
-	public Feature(URL url) {
+	public Feature(IIdentifier url) {
 		super(url);
 	}
 

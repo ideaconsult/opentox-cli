@@ -1,8 +1,7 @@
 package net.idea.opentox.cli.structure;
 
-import java.net.URL;
-
 import net.idea.opentox.cli.AbstractURLResource;
+import net.idea.opentox.cli.id.IIdentifier;
 import ambit2.base.data.SubstanceRecord;
 
 /**
@@ -28,7 +27,7 @@ public class Substance extends AbstractURLResource {
 		super(null);
 	}
 	
-	public Substance(URL url) {
+	public Substance(IIdentifier url) {
 		super(url);
 	}
 
