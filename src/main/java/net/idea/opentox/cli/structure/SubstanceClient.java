@@ -98,6 +98,7 @@ public class SubstanceClient<POLICY_RULE> extends AbstractURIClient<Substance, P
 				}
 			}
 		}
+		//TODO parse composition
 		subnode = node.get(SubstanceRecord.jsonSubstance.referenceSubstance.name());
 		if (subnode != null) {
 			record.setReferenceSubstanceUUID(subnode.get(SubstanceRecord.jsonSubstance.i5uuid.name()).getTextValue());
