@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import net.idea.opentox.cli.id.IIdentifier;
 
@@ -19,6 +20,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.opentox.rest.RestException;
 
 public abstract class AbstractClient<IDENTIFIER extends IIdentifier, T extends IIdentifiableResource<IDENTIFIER>> {
+	protected static Logger logger = Logger.getLogger(AbstractClient.class.getName());
 	public static final Charset utf8 = Charset.forName("UTF-8");
 	protected static final String mime_rdfxml = "application/rdf+xml";
 	protected static final String mime_n3 = "text/n3";
