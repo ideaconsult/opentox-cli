@@ -4,9 +4,7 @@
   <groupId>ambit</groupId>
   <artifactId>opentox-client</artifactId>
   <name>OpenTox client</name>
-  <version>2.0.1-SNAPSHOT</version>
-  <description>OpenTox API client 
-http://opentox.org/dev/apis/api-1.2</description>
+  <version>2.1.0-SNAPSHOT</version>
   <url>https://github.com/ideaconsult/opentox-cli</url>
   <issueManagement>
     <system>GitHub</system>
@@ -174,6 +172,8 @@ http://opentox.org/dev/apis/api-1.2</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>4.8.1</junit.version>
-    <ambit.version>2.7.5-SNAPSHOT</ambit.version>
+    <ambit.version>3.0.0-SNAPSHOT</ambit.version>
   </properties>
+  <description>AMBIT REST client
+http://ideaconsult.github.io/examples-ambit/apidocs/</description>
 </project>

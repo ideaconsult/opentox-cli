@@ -19,6 +19,17 @@ Opentox-cli is an [OpenTox REST API](http://opentox.org/dev/apis) Java client li
 ````
 
 #### Development
+AMBIT 3.0.0-SNAPSHOT dependency
+```` 
+<dependency>
+  <groupId>ambit</groupId>
+  <artifactId>opentox-client</artifactId>
+  <version>2.1.0-SNAPSHOT</version>
+</dependency>
+````
+
+#### Development
+AMBIT 2.7.x dependency
 ```` 
 <dependency>
   <groupId>ambit</groupId>
@@ -51,8 +62,9 @@ Opentox-cli is an [OpenTox REST API](http://opentox.org/dev/apis) Java client li
 
 ### AMBIT JSON extension 
    
-[Documentation](https://github.com/ideaconsult/examples-ambit/tree/master/ambit-json-docs)
+[API docs](http://ideaconsult.github.io/examples-ambit/apidocs/)
 
+[More](https://github.com/ideaconsult/examples-ambit/tree/master/ambit-json-docs)
 
 ## Command line example client
 Note: this is for illustration purposes, does not cover the entire [REST Ambit API](https://github.com/ideaconsult/examples-ambit/tree/master/ambit-json-docs)
