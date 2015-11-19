@@ -42,6 +42,7 @@ import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import ambit2.base.exceptions.AmbitIOException;
 import ambit2.core.io.FileInputState;
 import ambit2.core.io.FileOutputState;
+import ambit2.core.io.FileState;
 import ambit2.core.io.InteractiveIteratingMDLReader;
 
 /**
@@ -241,7 +242,8 @@ public class AmbitRESTWizard implements IJSONCallBack {
 	protected IIteratingChemObjectReader<IAtomContainer> getReader(InputStream in, String extension) throws CDKException, AmbitIOException {
 		FileInputState instate = new FileInputState();
 		IIteratingChemObjectReader<IAtomContainer> reader ;
-		if (extension.endsWith(FileInputState.extensions[FileInputState.SDF_INDEX])) {
+		
+		if (FileState._FILE_TYPE.SDF_INDEX.hasExtension(extension)) {
 			reader = new InteractiveIteratingMDLReader(in,SilentChemObjectBuilder.getInstance());
 			((InteractiveIteratingMDLReader) reader).setSkip(true);
 		} else reader = instate.getReader(in,extension);
@@ -500,7 +502,7 @@ public class AmbitRESTWizard implements IJSONCallBack {
 	
 
 	protected IChemObjectWriter createWriter() throws Exception {
-		if ((resultFile==null) || resultFile.getName().endsWith(FileOutputState.extensions[FileOutputState.SDF_INDEX]))
+		if ((resultFile==null) || (FileState._FILE_TYPE.SDF_INDEX.hasExtension(resultFile.getName())))
 			return new SDFWriter(new OutputStreamWriter(resultFile==null?System.out:new FileOutputStream(resultFile)));
 		else 
 			return FileOutputState.getWriter(new FileOutputStream(resultFile),resultFile.getName());
