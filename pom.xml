@@ -4,7 +4,7 @@
   <groupId>ambit</groupId>
   <artifactId>opentox-client</artifactId>
   <name>OpenTox client</name>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
   <url>https://github.com/ideaconsult/opentox-cli</url>
   <issueManagement>
     <system>GitHub</system>
@@ -96,7 +96,7 @@
     <dependency>
     	<groupId>ambit</groupId>
     	<artifactId>ambit2-core</artifactId>
-    	 <version>3.0.0</version>
+    	 <version>3.0.1</version>
     </dependency>
   </dependencies>
   <scm>
