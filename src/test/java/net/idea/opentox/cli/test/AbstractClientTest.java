@@ -2,14 +2,14 @@ package net.idea.opentox.cli.test;
 
 import java.util.Properties;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import junit.framework.Assert;
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.AbstractURLResource;
 import net.idea.opentox.cli.OTClient;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public abstract class AbstractClientTest<T extends AbstractURLResource,POLICY_RULE, C extends AbstractURIClient<T,POLICY_RULE>> {
 	//public final static String TEST_SERVER = "http://localhost:8080/ambit2";

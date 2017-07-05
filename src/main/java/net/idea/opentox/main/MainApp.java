@@ -1,7 +1,5 @@
 package net.idea.opentox.main;
 
-import net.idea.opentox.cli.OTClient;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -9,6 +7,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
+
+import net.idea.opentox.cli.OTClient;
 
 /**
  * Main example application

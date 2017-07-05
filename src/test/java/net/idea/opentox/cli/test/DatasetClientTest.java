@@ -4,6 +4,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.http.HttpStatus;
+import org.junit.Test;
+
 import junit.framework.Assert;
 import net.idea.opentox.cli.Resources;
 import net.idea.opentox.cli.dataset.Dataset;
@@ -16,9 +19,6 @@ import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.task.RemoteTask;
-
-import org.apache.http.HttpStatus;
-import org.junit.Test;
 
 /**
  * Test for {@link DatasetClient}

@@ -5,15 +5,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.idea.opentox.cli.AbstractURIClient;
-import net.idea.opentox.cli.id.Identifier;
-
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
 import org.opentox.rest.RestException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.id.Identifier;
 
 public class UserClient<POLICY_RULE> extends AbstractURIClient<User, POLICY_RULE> {
 
@@ -63,35 +64,35 @@ public class UserClient<POLICY_RULE> extends AbstractURIClient<User, POLICY_RULE
 		if (list == null)
 		    list = new ArrayList<User>();
 		User user = new User();
-		user.setResourceIdentifier(new Identifier(data.get(i).get("uri").getTextValue()));
+		user.setResourceIdentifier(new Identifier(data.get(i).get("uri").textValue()));
 		try {
-		    user.setTitle(data.get(i).get("title").getTextValue());
+		    user.setTitle(data.get(i).get("title").textValue());
 		} catch (Exception x) {
 		    user.setTitle(null);
 		}
 		try {
-		    user.setIdentifier(data.get(i).get("id").getTextValue());
+		    user.setIdentifier(data.get(i).get("id").textValue());
 		} catch (Exception x) {
 		    user.setIdentifier(null);
 		}
 		try {
-		    user.setUserName(data.get(i).get("username").getTextValue());
+		    user.setUserName(data.get(i).get("username").textValue());
 		} catch (Exception x) {
 		    user.setUserName(null);
 		}
 		try {
-		    user.setFirstName(data.get(i).get("firstname").getTextValue());
+		    user.setFirstName(data.get(i).get("firstname").textValue());
 		} catch (Exception x) {
 		    user.setFirstName(null);
 		}		
 		try {
-		    user.setLastName(data.get(i).get("lastname").getTextValue());
+		    user.setLastName(data.get(i).get("lastname").textValue());
 		} catch (Exception x) {
 		    user.setLastName(null);
 		}
 		
 		try {
-		    user.setHomepage(data.get(i).get("homepage").getTextValue());
+		    user.setHomepage(data.get(i).get("homepage").textValue());
 		} catch (Exception x) {
 		    user.setLastName(null);
 		}		

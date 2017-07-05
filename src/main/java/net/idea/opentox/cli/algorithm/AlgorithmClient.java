@@ -5,6 +5,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.opentox.rest.RestException;
+
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.dataset.Dataset;
@@ -12,13 +19,6 @@ import net.idea.opentox.cli.id.IIdentifier;
 import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.model.Model;
 import net.idea.opentox.cli.task.RemoteTask;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.opentox.rest.RestException;
 
 
 public class AlgorithmClient<POLICY_RULE> extends AbstractURIClient<Algorithm ,POLICY_RULE> {

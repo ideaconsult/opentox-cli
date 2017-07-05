@@ -1,6 +1,5 @@
 package net.idea.opentox.cli.structure;
 
-import java.net.URL;
 import java.util.Hashtable;
 
 import net.idea.opentox.cli.AbstractURLResource;

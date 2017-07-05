@@ -1,6 +1,6 @@
 package net.idea.opentox.main;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public interface IJSONCallBack {
 	void callback(JsonNode node);

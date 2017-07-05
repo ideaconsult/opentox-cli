@@ -7,6 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.opentox.rest.RestException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.InvalidInputException;
 import net.idea.opentox.cli.algorithm.Algorithm;
@@ -14,17 +26,6 @@ import net.idea.opentox.cli.dataset.Dataset;
 import net.idea.opentox.cli.id.IIdentifier;
 import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.task.RemoteTask;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
-import org.opentox.rest.RestException;
 
 public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RULE> {
 
@@ -116,17 +117,17 @@ public class ModelClient<POLICY_RULE> extends AbstractURIClient<Model,POLICY_RUL
 			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode metadata = data.get(i);
-				 Model model = new Model(new Identifier(metadata.get("URI").getTextValue()));
+				 Model model = new Model(new Identifier(metadata.get("URI").textValue()));
 				 if (list==null) list = new ArrayList<Model>();
 				 list.add(model);
 
-				 try {model.setTitle(metadata.get("title").getTextValue());} catch (Exception x) {}
+				 try {model.setTitle(metadata.get("title").textValue());} catch (Exception x) {}
 				 try {
-					 Dataset dataset = new Dataset(new Identifier(metadata.get("trainingDataset").getTextValue()));
+					 Dataset dataset = new Dataset(new Identifier(metadata.get("trainingDataset").textValue()));
 					 model.setTrainingDataset(dataset);
 				 } catch (Exception x) {model.setTrainingDataset(null);}
 				 try {
-					 Algorithm algorithm = new Algorithm(new Identifier(metadata.get("algorithm").get("URI").getTextValue()));
+					 Algorithm algorithm = new Algorithm(new Identifier(metadata.get("algorithm").get("URI").textValue()));
 					 model.setAlgorithm(algorithm);
 				 } catch (Exception x) {model.setAlgorithm(null);}
 			 }

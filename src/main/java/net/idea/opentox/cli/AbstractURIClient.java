@@ -13,11 +13,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.idea.opentox.cli.id.IIdentifier;
-import net.idea.opentox.cli.id.Identifier;
-import net.idea.opentox.cli.task.RemoteTask;
-import net.idea.opentox.main.IJSONCallBack;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,6 +25,11 @@ import org.apache.http.client.methods.HttpPut;
 import org.opentox.aa.opensso.AAServicesConfig;
 import org.opentox.aa.opensso.OpenSSOToken;
 import org.opentox.rest.RestException;
+
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
+import net.idea.opentox.cli.task.RemoteTask;
+import net.idea.opentox.main.IJSONCallBack;
 
 /**
  * An abstract client, implementing HTTP GET, PUT, POST and DELETE.

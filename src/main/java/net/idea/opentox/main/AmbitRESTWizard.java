@@ -15,6 +15,22 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.openscience.cdk.exception.CDKException;
+import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.io.IChemObjectReader.Mode;
+import org.openscience.cdk.io.IChemObjectReaderErrorHandler;
+import org.openscience.cdk.io.IChemObjectWriter;
+import org.openscience.cdk.io.SDFWriter;
+import org.openscience.cdk.io.iterator.IIteratingChemObjectReader;
+import org.openscience.cdk.silent.SilentChemObjectBuilder;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import ambit2.base.exceptions.AmbitIOException;
+import ambit2.core.io.FileInputState;
+import ambit2.core.io.FileOutputState;
+import ambit2.core.io.FileState;
+import ambit2.core.io.InteractiveIteratingMDLReader;
 import net.idea.opentox.cli.OTClient;
 import net.idea.opentox.cli.dataset.Dataset;
 import net.idea.opentox.cli.dataset.DatasetClient;
@@ -28,22 +44,6 @@ import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.main.MainApp._command;
 import net.idea.opentox.main.MainApp._option;
 import net.idea.opentox.main.MainApp._resource;
-
-import org.codehaus.jackson.JsonNode;
-import org.openscience.cdk.exception.CDKException;
-import org.openscience.cdk.interfaces.IAtomContainer;
-import org.openscience.cdk.io.IChemObjectReader.Mode;
-import org.openscience.cdk.io.IChemObjectReaderErrorHandler;
-import org.openscience.cdk.io.IChemObjectWriter;
-import org.openscience.cdk.io.SDFWriter;
-import org.openscience.cdk.io.iterator.IIteratingChemObjectReader;
-import org.openscience.cdk.silent.SilentChemObjectBuilder;
-
-import ambit2.base.exceptions.AmbitIOException;
-import ambit2.core.io.FileInputState;
-import ambit2.core.io.FileOutputState;
-import ambit2.core.io.FileState;
-import ambit2.core.io.InteractiveIteratingMDLReader;
 
 /**
  * The class that does the work.

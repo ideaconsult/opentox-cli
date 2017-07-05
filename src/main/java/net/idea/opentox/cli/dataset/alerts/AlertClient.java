@@ -5,16 +5,17 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.opentox.rest.RestException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.id.IIdentifier;
 import net.idea.opentox.cli.id.Identifier;
-
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
-import org.opentox.rest.RestException;
 
 public class AlertClient<POLICY_RULE> extends AbstractURIClient<Alert, POLICY_RULE> {
 
@@ -35,7 +36,7 @@ public class AlertClient<POLICY_RULE> extends AbstractURIClient<Alert, POLICY_RU
 		if (list == null)
 		    list = new ArrayList<Alert>();
 		Alert alert = new Alert();
-		alert.setResourceIdentifier(new Identifier(data.get(i).get("uri").getTextValue()));
+		alert.setResourceIdentifier(new Identifier(data.get(i).get("uri").textValue()));
 		list.add(alert);
 		//TODO
 

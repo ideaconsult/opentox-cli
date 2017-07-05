@@ -7,14 +7,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.client.HttpClient;
+import org.opentox.rest.RestException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.id.Identifier;
-
-import org.apache.http.client.HttpClient;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
-import org.opentox.rest.RestException;
 
 public class QMRFDocumentClient<POLICY_RULE> extends AbstractURIClient<QMRFDocument, POLICY_RULE> {
 
@@ -62,17 +63,17 @@ public class QMRFDocumentClient<POLICY_RULE> extends AbstractURIClient<QMRFDocum
 	    if (data != null)
 		for (int i = 0; i < data.size(); i++) {
 		    JsonNode docNode = data.get(i).get("uri");
-		    QMRFDocument document = new QMRFDocument(new Identifier(docNode.getTextValue()));
+		    QMRFDocument document = new QMRFDocument(new Identifier(docNode.textValue()));
 		    try {
-			document.setTitle(docNode.get("title").getTextValue());
+			document.setTitle(docNode.get("title").textValue());
 		    } catch (Exception x) {
 		    }
 		    try {
-			document.setIdentifier(docNode.get("identifier").getTextValue());
+			document.setIdentifier(docNode.get("identifier").textValue());
 		    } catch (Exception x) {
 		    }
 		    try {
-			document.setVisibleIdentifier(docNode.get("visibleIdentifier").getTextValue());
+			document.setVisibleIdentifier(docNode.get("visibleIdentifier").textValue());
 		    } catch (Exception x) {
 		    }
 		    if (list == null)

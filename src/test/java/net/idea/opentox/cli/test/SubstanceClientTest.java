@@ -1,12 +1,10 @@
 package net.idea.opentox.cli.test;
 
-import java.net.URL;
 import java.util.List;
 
 import ambit2.base.facet.SubstanceStudyFacet;
 import junit.framework.Assert;
 import net.idea.modbcum.i.facet.IFacet;
-import net.idea.opentox.cli.Resources;
 import net.idea.opentox.cli.structure.Substance;
 import net.idea.opentox.cli.structure.SubstanceClient;
 

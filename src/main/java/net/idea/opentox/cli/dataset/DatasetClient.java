@@ -7,14 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import net.idea.opentox.cli.AbstractURIClient;
-import net.idea.opentox.cli.InvalidInputException;
-import net.idea.opentox.cli.dataset.Rights._type;
-import net.idea.opentox.cli.id.IIdentifier;
-import net.idea.opentox.cli.id.Identifier;
-import net.idea.opentox.cli.structure.Compound;
-import net.idea.opentox.cli.structure.CompoundClient;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -24,10 +16,19 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
 import org.opentox.rest.RestException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.InvalidInputException;
+import net.idea.opentox.cli.dataset.Rights._type;
+import net.idea.opentox.cli.id.IIdentifier;
+import net.idea.opentox.cli.id.Identifier;
+import net.idea.opentox.cli.structure.Compound;
+import net.idea.opentox.cli.structure.CompoundClient;
 
 /**
  * Reads/writes {@link Dataset} via OpenTox Dataset API
@@ -94,16 +95,16 @@ public class DatasetClient<POLICY_RULE> extends AbstractURIClient<Dataset,POLICY
 			 if (data!=null)
 			 for (int i=0; i < data.size();i++) {
 				 JsonNode metadata = data.get(i);
-				 Dataset dataset = new Dataset(new Identifier(metadata.get("URI").getTextValue()));
+				 Dataset dataset = new Dataset(new Identifier(metadata.get("URI").textValue()));
 				 if (list==null) list = new ArrayList<Dataset>();
 				 list.add(dataset);
-				 try {dataset.getMetadata().setTitle(metadata.get("title").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().setSeeAlso(metadata.get("seeAlso").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().setStars(metadata.get("stars").getIntValue());} catch (Exception x) {}
+				 try {dataset.getMetadata().setTitle(metadata.get("title").textValue());} catch (Exception x) {}
+				 try {dataset.getMetadata().setSeeAlso(metadata.get("seeAlso").textValue());} catch (Exception x) {}
+				 try {dataset.getMetadata().setStars(metadata.get("stars").intValue());} catch (Exception x) {}
 				 dataset.getMetadata().setRights(new Rights());
-				 try {dataset.getMetadata().getRights().setRightsHolder(metadata.get("rightsHolder").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().getRights().setURI(metadata.get("rights").get("URI").getTextValue());} catch (Exception x) {}
-				 try {dataset.getMetadata().getRights().setType(_type.rights.valueOf(metadata.get("rights").get("type").getTextValue()));} catch (Exception x) {}
+				 try {dataset.getMetadata().getRights().setRightsHolder(metadata.get("rightsHolder").textValue());} catch (Exception x) {}
+				 try {dataset.getMetadata().getRights().setURI(metadata.get("rights").get("URI").textValue());} catch (Exception x) {}
+				 try {dataset.getMetadata().getRights().setType(_type.rights.valueOf(metadata.get("rights").get("type").textValue()));} catch (Exception x) {}
 			 }
 			 return list;
 		} else if (mime_rdfxml.equals(mediaType)) {

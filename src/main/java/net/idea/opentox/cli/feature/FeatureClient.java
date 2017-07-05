@@ -7,14 +7,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.apache.http.client.HttpClient;
+import org.opentox.rest.RestException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.idea.opentox.cli.AbstractURIClient;
 import net.idea.opentox.cli.id.IIdentifier;
 import net.idea.opentox.cli.id.Identifier;
-
-import org.apache.http.client.HttpClient;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.opentox.rest.RestException;
 
 public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature, POLICY_RULE> {
 
@@ -32,7 +33,7 @@ public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature, POLIC
 		callback.callback(node);
 	    JsonNode data = node.get("feature");
 
-	    Iterator<String> i = data.getFieldNames();
+	    Iterator<String> i = data.fieldNames();
 	    while (i.hasNext()) {
 		String uri = i.next();
 		JsonNode metadata = data.get(uri);
@@ -41,40 +42,40 @@ public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature, POLIC
 		Feature feature = new Feature(new Identifier(uri));
 		list.add(feature);
 		try {
-		    feature.setTitle(metadata.get("title").getTextValue());
+		    feature.setTitle(metadata.get("title").textValue());
 		} catch (Exception x) {
 		}
 		try {
-		    feature.setUnits(metadata.get("units").getTextValue());
+		    feature.setUnits(metadata.get("units").textValue());
 		} catch (Exception x) {
 		}
 		try {
-		    feature.setSameAs(metadata.get("sameAs").getTextValue());
+		    feature.setSameAs(metadata.get("sameAs").textValue());
 		} catch (Exception x) {
 		}
 		try {
-		    feature.setCreator(metadata.get("creator").getTextValue());
+		    feature.setCreator(metadata.get("creator").textValue());
 		} catch (Exception x) {
 		}
 		try {
-		    feature.setSource(metadata.get("source").get("URI").getTextValue());
+		    feature.setSource(metadata.get("source").get("URI").textValue());
 		} catch (Exception x) {
 		}
 		try {
-		    feature.setType(metadata.get("source").get("type").getTextValue());
+		    feature.setType(metadata.get("source").get("type").textValue());
 		} catch (Exception x) {
 		}
 
 		try {
-		    feature.setModelPredictionFeature(metadata.get("isModelPredictionFeature").getBooleanValue());
+		    feature.setModelPredictionFeature(metadata.get("isModelPredictionFeature").booleanValue());
 		} catch (Exception x) {
 		}
 		try {
-		    feature.setNumeric(metadata.get("isNumeric").getBooleanValue());
+		    feature.setNumeric(metadata.get("isNumeric").booleanValue());
 		} catch (Exception x) {
 		}
 		try {
-		    feature.setNominal(metadata.get("isNominal").getBooleanValue());
+		    feature.setNominal(metadata.get("isNominal").booleanValue());
 		} catch (Exception x) {
 		}
 

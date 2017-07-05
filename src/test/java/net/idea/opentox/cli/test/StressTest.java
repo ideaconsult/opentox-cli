@@ -7,14 +7,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.junit.Test;
+
 import junit.framework.Assert;
 import net.idea.opentox.cli.OTClient;
 import net.idea.opentox.cli.id.Identifier;
 import net.idea.opentox.cli.qmrf.QMRFDocumentClient;
 import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
-
-import org.junit.Test;
 
 public class StressTest extends
 		AbstractClientTest<Compound, String, CompoundClient<String>> {

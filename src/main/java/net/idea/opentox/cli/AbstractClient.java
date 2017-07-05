@@ -9,8 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.idea.opentox.cli.id.IIdentifier;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,6 +16,8 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.opentox.rest.RestException;
+
+import net.idea.opentox.cli.id.IIdentifier;
 
 public abstract class AbstractClient<IDENTIFIER extends IIdentifier, T extends IIdentifiableResource<IDENTIFIER>> {
 	protected static Logger logger = Logger.getLogger(AbstractClient.class.getName());

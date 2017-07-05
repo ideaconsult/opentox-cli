@@ -3,6 +3,9 @@ package net.idea.opentox.cli.test;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.http.HttpStatus;
+import org.junit.Test;
+
 import junit.framework.Assert;
 import net.idea.opentox.cli.Resources;
 import net.idea.opentox.cli.id.IIdentifier;
@@ -11,9 +14,6 @@ import net.idea.opentox.cli.structure.Compound;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.structure.CompoundClient.QueryType;
 import net.idea.opentox.cli.task.RemoteTask;
-
-import org.apache.http.HttpStatus;
-import org.junit.Test;
 
 public class CompoundClientTest<POLICY_RULE> extends
 		AbstractClientTest<Compound, POLICY_RULE, CompoundClient<POLICY_RULE>> {

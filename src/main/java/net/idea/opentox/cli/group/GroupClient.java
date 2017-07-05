@@ -5,15 +5,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.idea.opentox.cli.AbstractURIClient;
-import net.idea.opentox.cli.id.Identifier;
-
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
 import org.opentox.rest.RestException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import net.idea.opentox.cli.AbstractURIClient;
+import net.idea.opentox.cli.id.Identifier;
 
 public class GroupClient<POLICY_RULE> extends AbstractURIClient<Group, POLICY_RULE> {
 
@@ -46,19 +47,19 @@ public class GroupClient<POLICY_RULE> extends AbstractURIClient<Group, POLICY_RU
 		if (list == null)
 		    list = new ArrayList<Group>();
 		Group group = new Group();
-		group.setResourceIdentifier(new Identifier(data.get(i).get("uri").getTextValue()));
+		group.setResourceIdentifier(new Identifier(data.get(i).get("uri").textValue()));
 		try {
-		    group.setTitle(data.get(i).get("title").getTextValue());
+		    group.setTitle(data.get(i).get("title").textValue());
 		} catch (Exception x) {
 		    group.setTitle(null);
 		}
 		try {
-		    group.setIdentifier(data.get(i).get("id").getTextValue());
+		    group.setIdentifier(data.get(i).get("id").textValue());
 		} catch (Exception x) {
 		    group.setIdentifier(null);
 		}
 		try {
-		    group.setGroupName(data.get(i).get("groupname").getTextValue());
+		    group.setGroupName(data.get(i).get("groupname").textValue());
 		} catch (Exception x) {
 		    group.setGroupName(null);
 		}

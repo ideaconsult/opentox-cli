@@ -1,8 +1,8 @@
 package net.idea.opentox.cli.structure;
 
+import ambit2.base.data.SubstanceRecord;
 import net.idea.opentox.cli.AbstractURLResource;
 import net.idea.opentox.cli.id.IIdentifier;
-import ambit2.base.data.SubstanceRecord;
 
 /**
  * @author nina

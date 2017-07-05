@@ -3,16 +3,16 @@ package net.idea.opentox.cli;
 import java.net.URL;
 import java.util.Hashtable;
 
+import org.apache.http.HttpRequest;
+import org.opentox.aa.opensso.OpenSSOPolicy;
+import org.opentox.aa.opensso.OpenSSOToken;
+
 import net.idea.opentox.cli.dataset.DatasetClient;
 import net.idea.opentox.cli.feature.FeatureClient;
 import net.idea.opentox.cli.model.ModelClient;
 import net.idea.opentox.cli.qmrf.QMRFDocumentClient;
 import net.idea.opentox.cli.structure.CompoundClient;
 import net.idea.opentox.cli.structure.SubstanceClient;
-
-import org.apache.http.HttpRequest;
-import org.opentox.aa.opensso.OpenSSOPolicy;
-import org.opentox.aa.opensso.OpenSSOToken;
 
 /**
  * Top level OpenTox API client.

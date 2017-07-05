@@ -1,7 +1,6 @@
 package net.idea.opentox.cli;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
