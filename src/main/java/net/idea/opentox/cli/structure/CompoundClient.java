@@ -305,7 +305,7 @@ public class CompoundClient<POLICY_RULE> extends AbstractURIClient<Compound, POL
 
 	@Override
 	public List<Compound> get(IIdentifier url, String mediaType, String... params) throws RestException, IOException {
-		LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/compound");
+		LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/apps-ambit/apidocs/#!/compound");
 		return super.get(url, mediaType, params);
 	}
 }

@@ -93,7 +93,7 @@ public class FeatureClient<POLICY_RULE> extends AbstractURIClient<Feature, POLIC
 
     @Override
     public List<Feature> get(IIdentifier url, String mediaType, String... params) throws RestException, IOException {
-	LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/examples-ambit/apidocs/#!/feature");
+	LOGGER.log(Level.INFO, "See API-DOCS at http://ideaconsult.github.io/apps-ambit/apidocs/#!/feature");
 	return super.get(url, mediaType, params);
     }
 }

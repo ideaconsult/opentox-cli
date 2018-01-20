@@ -51,12 +51,12 @@ AMBIT 3.2.0-SNAPSHOT dependency
 
 ### AMBIT JSON extension 
    
-[API docs](http://ideaconsult.github.io/examples-ambit/apidocs/)
+[API docs](http://ideaconsult.github.io/apps-ambit/apidocs/)
 
-[More](https://github.com/ideaconsult/examples-ambit/tree/master/ambit-json-docs)
+[More](https://github.com/ideaconsult/apps-ambit/tree/master/ambit-json-docs)
 
 ## Command line example client
-Note: this is for illustration purposes, does not cover the entire [REST Ambit API](https://github.com/ideaconsult/examples-ambit/tree/master/ambit-json-docs)
+Note: this is for illustration purposes, does not cover the entire [REST Ambit API](https://github.com/ideaconsult/apps-ambit/tree/master/ambit-json-docs)
 
 ````
 java -jar mcli.jar -h
@@ -116,7 +116,7 @@ java -jar mcli.jar -s http://localhost:8080/ambit2 -r querycompound -z 10 -p 0 -
 
 Retrieve substances with study summaries 
 
-[Example](https://github.com/ideaconsult/examples-ambit/blob/master/ambit-json-docs/substance_withstudysummary.md)
+[Example](https://github.com/ideaconsult/apps-ambit/blob/master/ambit-json-docs/substance_withstudysummary.md)
 
 
 

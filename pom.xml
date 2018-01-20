@@ -165,5 +165,5 @@
     <ambit.version>3.1.0</ambit.version>
   </properties>
   <description>AMBIT REST client
-http://ideaconsult.github.io/examples-ambit/apidocs/</description>
+http://ideaconsult.github.io/apps-ambit/apidocs/</description>
 </project>
