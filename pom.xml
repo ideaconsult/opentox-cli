@@ -4,7 +4,7 @@
   <groupId>ambit</groupId>
   <artifactId>opentox-client</artifactId>
   <name>OpenTox client</name>
-  <version>3.1.0</version>
+  <version>4.0.0-SNAPSHOT</version>
   <url>https://github.com/ideaconsult/opentox-cli</url>
   <issueManagement>
     <system>GitHub</system>
@@ -29,12 +29,7 @@
       <id>nexus-idea-releases</id>
       <url>https://nexus.ideaconsult.net/content/repositories/releases</url>
     </repository>
-    <!-- 
-    <site>
-      <id>website_ambit</id>
-      <url>scp://shell.sourceforge.net/home/groups/a/am/ambit/htdocs/AMBIT2-LIBS</url>
-    </site>
- 	 -->
+
   </distributionManagement>
   <repositories>
     <repository>
@@ -162,7 +157,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>4.8.1</junit.version>
-    <ambit.version>3.1.0</ambit.version>
+    <ambit.version>4.0.0-SNAPSHOT</ambit.version>
   </properties>
   <description>AMBIT REST client
 http://ideaconsult.github.io/apps-ambit/apidocs/</description>
