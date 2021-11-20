@@ -16,12 +16,12 @@ Download form [Maven repository](https://nexus.ideaconsult.net/#nexus-search;qui
 ````
 
 #### Development
-AMBIT 3.2.0-SNAPSHOT dependency
+AMBIT 4.1.0-SNAPSHOT dependency
 ```` 
 <dependency>
   <groupId>ambit</groupId>
   <artifactId>opentox-client</artifactId>
-  <version>3.2.0-SNAPSHOT</version>
+  <version>4.1.0-SNAPSHOT</version>
 </dependency>
 ````
 
